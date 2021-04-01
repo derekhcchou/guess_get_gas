@@ -1,4 +1,5 @@
 // This example code is designed to quickly deploy an example contract using Remix.
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.6.0;
 
@@ -9,9 +10,9 @@ contract getCoinList is ChainlinkClient {
     struct CoinList{
          bytes32 name;
          bytes32 fullName;
-         bytes32 logoUrl;
          bytes32 overviewUrl;
          bytes32 assetLaunchDate;
+         bytes32 logoUrl;
     }
 
     mapping (int256 => CoinList) public coinList;
@@ -44,17 +45,17 @@ contract getCoinList is ChainlinkClient {
         infoList[4]="AssetLaunchDate";
         infoList[5]="ImageUrl";
 
+    }
+
+
+    function addCoin(int256 _coinQuantity) public{
+
         dataCount[1]=1;
         dataCount[2]=1;
         dataCount[3]=1;
         dataCount[4]=1;
         dataCount[5]=1;
 
-
-    }
-
-
-    function addCoin(int256 _coinQuantity) public{
         apiUrl=stringAdd("https://min-api.cryptocompare.com/data/top/totalvolfull?tsym=USD&limit=",intToString(uint(_coinQuantity)));
         for(int256 i=0;i<_coinQuantity;i++){
                 requestName(intToString(uint(i)), apiUrl, infoList[1]);
@@ -63,6 +64,23 @@ contract getCoinList is ChainlinkClient {
                 requestAssetLaunchDate(intToString(uint(i)), apiUrl, infoList[4]);
                 requestImageUrl(intToString(uint(i)), apiUrl, infoList[5]);
         }
+    }
+
+
+    function getCoinName(int256 _id) public view returns(bytes32){
+        return coinList[_id].name;
+    }
+    function getCoinFullName(int256 _id) public view returns(bytes32){
+        return coinList[_id].fullName;
+    }
+    function getCoinOverviewUrl(int256 _id) public view returns(bytes32){
+        return coinList[_id].overviewUrl;
+    }
+    function getCoinAssetLaunchDate(int256 _id) public view returns(bytes32){
+        return coinList[_id].assetLaunchDate;
+    }
+    function getCoinLogoUrl(int256 _id) public view returns(bytes32){
+        return coinList[_id].logoUrl;
     }
 
     /**
@@ -179,10 +197,6 @@ contract getCoinList is ChainlinkClient {
 
 
 
-
-
-
-
     function intToString(uint _i) public returns(string memory){
         uint j = _i;
         uint len;
@@ -214,6 +228,8 @@ contract getCoinList is ChainlinkClient {
 
         return fullString;
     }
+
+
 
 
 
