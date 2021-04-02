@@ -22,16 +22,22 @@ interface GetVRFInterface {
 
 contract CallContract is ChainlinkClient{
     int256 public coinQuantity;
-    int256 public questionQuantity;
+    int256 public gameQuantity;
     bytes32 public reqID_VRF;
     int256 public rand_b;
 
-    struct QuestionsList{
+    struct GameList{
         int256 questionId;  // 2 items
-        int256 topicId;  // which coin  // coinQuantity items
+        int256 badgeTypeId;  // which coin  // coinQuantity items
         uint revealTime;   //
         int256 lifeLengthId;  // daily=1,weekly=7,monthly=30  // 3 items
         int256 propertyId;  // 1 items
+        bool activity;
+    }
+
+    struct ParticipantList{
+        address userAddress;
+        int256 optionId;
     }
 
     struct CoinList{
@@ -50,11 +56,12 @@ contract CallContract is ChainlinkClient{
 
 
     mapping (int256 => CoinList) public coinList;
-    mapping (int256 => QuestionsList) public questionsList;
-    mapping (int256 => mapping(int256 => string)) public optionsList;
+    mapping (int256 => GameList) public gameList;
+    mapping (int256 => mapping(int256 => int256 [4])) public optionsList;
     mapping (int256 => string) public propertyList;
     mapping (int256 => int256) public lifeLengthList;
     mapping (int256 => QuestionList) public questionList;
+    mapping (int256 => ParticipantList) public participantList;
 
     address GetCoinInfoInterfaceAddress = 0x2AF265E375e8E8114680447a1036DB86623d45Fb;
     GetCoinInfoInterface getCoinInfoContract = GetCoinInfoInterface(GetCoinInfoInterfaceAddress);
@@ -78,8 +85,10 @@ contract CallContract is ChainlinkClient{
 
         coinQuantity = 10;
 
-        questionQuantity=1;
+        gameQuantity=1;
     }
+
+
 
     function getRandom() public returns(uint256){
         LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
@@ -106,30 +115,60 @@ contract CallContract is ChainlinkClient{
         }
     }
 
-// 3
-    function makeQuestion() public{
-        questionsList[questionQuantity].questionId = int256(getRandom()) % 2 + 1;
-        makeOptions(int256(getRandom()) % 2 + 1, questionQuantity);
-        questionsList[questionQuantity].topicId = int256(getRandom()) % coinQuantity + 1;
-        questionsList[questionQuantity].revealTime = now;
-        questionsList[questionQuantity].lifeLengthId = int256(getRandom()) % 3 + 1;
-        questionsList[questionQuantity].propertyId = int256(getRandom()) % 1 + 1;
+// 3 Daily
+    function makeDailyGame() public{
+        gameList[gameQuantity].questionId = int256(getRandom()) % 2 + 1;
+        makeOptions(int256(getRandom()) % 2 + 1, gameQuantity);
+        gameList[gameQuantity].badgeTypeId = int256(getRandom()) % coinQuantity + 1;
+        gameList[gameQuantity].revealTime = now;
+        gameList[gameQuantity].lifeLengthId = 1;
+        gameList[gameQuantity].propertyId = int256(getRandom()) % 1 + 1;
+        gameList[gameQuantity].activity = true;
 
-        questionQuantity++;
+        gameQuantity++;
     }
+// 3 Weekly
+    function makeWeeklyGame() public{
+        gameList[gameQuantity].questionId = int256(getRandom()) % 2 + 1;
+        makeOptions(int256(getRandom()) % 2 + 1, gameQuantity);
+        gameList[gameQuantity].badgeTypeId = int256(getRandom()) % coinQuantity + 1;
+        gameList[gameQuantity].revealTime = now;
+        gameList[gameQuantity].lifeLengthId = 2;
+        gameList[gameQuantity].propertyId = int256(getRandom()) % 1 + 1;
+        gameList[gameQuantity].activity = true;
 
+        gameQuantity++;
+    }
+// 3 Month
+    function makeMonthGame() public{
+        gameList[gameQuantity].questionId = int256(getRandom()) % 2 + 1;
+        makeOptions(int256(getRandom()) % 2 + 1, gameQuantity);
+        gameList[gameQuantity].badgeTypeId = int256(getRandom()) % coinQuantity + 1;
+        gameList[gameQuantity].revealTime = now;
+        gameList[gameQuantity].lifeLengthId = 3;
+        gameList[gameQuantity].propertyId = int256(getRandom()) % 1 + 1;
+        gameList[gameQuantity].activity = true;
+
+        gameQuantity++;
+    }
     function makeOptions(int256 _questionId, int256 _questionQuantity) public{
         if(_questionId == 1){
-            optionsList[_questionQuantity][1] = "1,2,3,0";
-            optionsList[_questionQuantity][2] = "4,5,6,0";
-            optionsList[_questionQuantity][3] = "7,8,9,0";
+            optionsList[_questionQuantity][1] = [1,2,3,0];
+            optionsList[_questionQuantity][2] = [4,5,6,0];
+            optionsList[_questionQuantity][3] = [7,8,9,0];
         }else if(_questionId == 2){
-            optionsList[_questionQuantity][1] = "0";
-            optionsList[_questionQuantity][2] = "1";
-            optionsList[_questionQuantity][3] = "2";
+            optionsList[_questionQuantity][1] = [0,0,0,0];
+            optionsList[_questionQuantity][2] = [1,0,0,0];
+            optionsList[_questionQuantity][3] = [2,2,2,2];
         }
 
    }
+
+   function addParticipant(int256 _gameId, address _userAddress, int256 _optionId) public{
+        participantList[_gameId].userAddress = _userAddress;
+        participantList[_gameId].optionId = _optionId;
+   }
+
 
 
 
