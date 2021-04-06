@@ -1,5 +1,6 @@
-// Address: 0x879292944e1EC4C6dD37d30633dbAFB81434DAAc
+// Address: 0x6d4b1e4e093CA146122Ec29279Ef2E0429bfF695
 // SPDX-License-Identifier: GPL-3.0
+
 
 pragma solidity >=0.6.0 <0.9.0;
 
@@ -63,17 +64,25 @@ contract CallContract is ChainlinkClient{
     struct LifeLengthList{
         int256 lifeLength;  // daily=1,weekly=7,monthly=30
         int256 gameQuantity;  // daily=30,weekly=4,monthly=1
+        string title;
     }
 
     struct GameInfo{
         int256 gameId;
-        string gameTitle;
+        bytes32 gameTitle;
         string gameQuestion;
+        bytes gameDescription;
+        //int256[][] gameAnsOptions;
+        //uint gameWindowEndTime;
         uint gameParticipateStartTime;
+        //uint gameParticipateEndTime;
         string gameWindow;
         string gameProperty;
-        bytes32 gamePropertyLogoLink;
+        bytes32 gameLogoLink;
+        int256 numOfParticipants;
     }
+
+
 
     mapping (int256 => CurrencyList) public currencyList;
     mapping (int256 => GameList) public gameList;
@@ -101,12 +110,16 @@ contract CallContract is ChainlinkClient{
 
         lifeLengthList[1].lifeLength = 1;
         lifeLengthList[1].gameQuantity = 30;
+        lifeLengthList[1].title = "Daily";
+
 
         lifeLengthList[2].lifeLength = 7;
         lifeLengthList[2].gameQuantity = 4;
+        lifeLengthList[2].title = "Weekly";
 
         lifeLengthList[3].lifeLength = 30;
         lifeLengthList[3].gameQuantity = 1;
+        lifeLengthList[3].title = "Monthly";
 
         currencyQuantity = 10;
     }
@@ -171,28 +184,41 @@ contract CallContract is ChainlinkClient{
                 gameList[gameId].lifeLengthId = i;
                 gameList[gameId].property = propertyList[1];
                 gameList[gameId].isActivity = false;
-                gameList[gameId].isActivity = false;
+                gameList[gameId].isClose = false;
             }
         }
     }
 
+    /*
 
-    function returnGameInfo() public{
-        GameInfo[] memory gameinfo;
+    struct GameInfo{
+        //int256[][] gameAnsOptions;
+        //uint gameWindowEndTime;
+        //uint gameParticipateEndTime;
+        //int256 numOfParticipants;
+    }
+    */
+
+    /*
+    function returnGameInfo() public returns(GameInfo memory){
+        GameInfo[4] memory gameInfo;
         for(int256 i=1;i<=3;i++){  // i=1 daily,i=2 weekly,i=3 monthly
             for(int256 gameId=1;gameId<=lifeLengthList[i].gameQuantity;gameId++){
-                gameList[gameId].questionId = int256(getRandom()) % 2 + 1;
-                makeOptions(int256(getRandom()) % 2 + 1, gameId);
-                gameList[gameId].currencyId = int256(getRandom()) % currencyQuantity + 1;
-                gameList[gameId].revealTime = 0;
-                gameList[gameId].lifeLengthId = i;
-                gameList[gameId].property = propertyList[1];
-                gameList[gameId].isActivity = false;
-                gameList[gameId].isActivity = false;
+                if(gameList[gameId].isActivity || gameList[gameId].isClose){
+                    gameInfo[uint(i)].gameId = gameId;
+                    gameInfo[uint(i)].gameTitle = currencyList[gameList[gameId].currencyId].name;
+                    gameInfo[uint(i)].gameQuestion = questionList[gameList[gameId].questionId].questionDescription;
+                    gameInfo[uint(i)].gameDescription = currencyList[gameList[gameId].currencyId].currencyIntro;
+                    gameInfo[uint(i)].gameParticipateStartTime = now;
+                    gameInfo[uint(i)].gameWindow = lifeLengthList[i].title;
+                    gameInfo[uint(i)].gameProperty = gameList[gameId].property;
+                    gameInfo[uint(i)].gameLogoLink = currencyList[gameList[gameId].currencyId].logoUrl;
+                }
             }
         }
-
+        return(gameInfo[0]);
     }
+    */
 
 
 //
