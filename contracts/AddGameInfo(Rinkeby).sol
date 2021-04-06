@@ -1,6 +1,5 @@
-// Address: 0x6d4b1e4e093CA146122Ec29279Ef2E0429bfF695
-// SPDX-License-Identifier: GPL-3.0
 
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.6.0 <0.9.0;
 
@@ -15,6 +14,12 @@ interface GetCurrencyInfoInterface {
     function getCurrencyAssetLaunchDate(int256 _id) external view returns(bytes32);
     function getCurrencyLogoUrl(int256 _id) external view returns(bytes32);
     function getCurrencyIntro(int256 _id) external view returns(bytes memory);
+}
+
+interface GetAnswerInterface {
+  function strAdd(string calldata _a, bytes32 _b, string calldata _c) external returns(string memory);
+  function getVolume() external view returns (uint256);
+  function requestVolumeData(string calldata _currenyName, string calldata _questionName, string calldata _apiUrl) external returns (bytes32 requestId);
 }
 
 interface GetVRFInterface {
@@ -91,8 +96,12 @@ contract CallContract is ChainlinkClient{
     mapping (int256 => LifeLengthList) public lifeLengthList;
     mapping (int256 => QuestionList) public questionList;
 
+
     address GetCurrencyInfoInterfaceAddress = 0xa580D0eF1d8bDefdcD06059f3B81D305778ab617;
     GetCurrencyInfoInterface getCurrencyInfoContract = GetCurrencyInfoInterface(GetCurrencyInfoInterfaceAddress);
+
+    address GetAnswerInterfaceAddress = 0x6f33ed84c014F72D23240b9Ed589959a8c226C76;
+    GetAnswerInterface getAnswerContract = GetAnswerInterface(GetCurrencyInfoInterfaceAddress);
 
     address GetVRFInterfaceAddress = 0x40C7b80E812a3683d651DB8b38278A256f51362D;
     GetVRFInterface getVRFContract = GetVRFInterface(GetVRFInterfaceAddress);
@@ -190,15 +199,21 @@ contract CallContract is ChainlinkClient{
     }
 
     /*
-
-    struct GameInfo{
-        //int256[][] gameAnsOptions;
-        //uint gameWindowEndTime;
-        //uint gameParticipateEndTime;
-        //int256 numOfParticipants;
-    }
+        struct GameInfo{
+            int256 gameId;
+            bytes32 gameTitle;
+            string gameQuestion;
+            bytes gameDescription;
+            //int256[][] gameAnsOptions;
+            //uint gameWindowEndTime;
+            uint gameParticipateStartTime;
+            //uint gameParticipateEndTime;
+            string gameWindow;
+            string gameProperty;
+            bytes32 gameLogoLink;
+            int256 numOfParticipants;
+        }
     */
-
     /*
     function returnGameInfo() public returns(GameInfo memory){
         GameInfo[4] memory gameInfo;
@@ -219,6 +234,28 @@ contract CallContract is ChainlinkClient{
         return(gameInfo[0]);
     }
     */
+
+    function getAnswer(int256 _gameId) public{
+        string memory url_main;
+        string memory url_sub;
+        bytes32 reqID;
+
+
+        url_main="https://min-api.cryptocompare.com/data/pricemultifull?fsyms=";
+        url_sub="&tsyms=USD";
+
+
+        LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
+        require(linkToken.transfer(GetAnswerInterfaceAddress, linkToken.balanceOf(address(this))), "Unable to transfer");
+
+        reqID=getAnswerContract.requestVolumeData(getAnswerContract.strAdd("", currencyList[gameList[_gameId].currencyId].name, ""), questionList[gameList[_gameId].questionId].questionName, getAnswerContract.strAdd(url_main, currencyList[gameList[_gameId].currencyId].name, url_sub));
+
+    }
+
+    function returnAnswer() public view returns(uint256){
+        return getAnswerContract.getVolume();
+    }
+
 
 
 //
