@@ -3,7 +3,7 @@
 
 pragma solidity >=0.6.0 <0.9.0;
 
-import "https://raw.githubusercontent.com/smartcontractkit/chainlink/develop/evm-contracts/src/v0.6/ChainlinkClient.sol";
+import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
 
 
 interface GetCoinInfoInterface {
@@ -20,7 +20,7 @@ interface GetVRFInterface {
     function getRandomNumber() external returns (bytes32 requestId);
 }
 
-contract CallContract is ChainlinkClient{
+contract GetQuestions is ChainlinkClient{
     int256 public coinQuantity;
     int256 public gameQuantity;
     bytes32 public reqID_VRF;
@@ -67,7 +67,7 @@ contract CallContract is ChainlinkClient{
     GetCoinInfoInterface getCoinInfoContract = GetCoinInfoInterface(GetCoinInfoInterfaceAddress);
 
     address GetVRFInterfaceAddress = 0xBC59eB1EDaFDBCC86237C534D556704A446ea4Bf;
-    GetVRFInterface getVRFContract = GetVRFInterface(GetVRFInterfaceAddress);
+    GetVRFInterface getVRFContract1 = GetVRFInterface(GetVRFInterfaceAddress);
 
     constructor() public {
         setPublicChainlinkToken();
@@ -93,8 +93,8 @@ contract CallContract is ChainlinkClient{
     function getRandom() public returns(uint256){
         LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
         require(linkToken.transfer(GetVRFInterfaceAddress, linkToken.balanceOf(address(this))), "Unable to transfer");
-        reqID_VRF=getVRFContract.getRandomNumber();
-        return getVRFContract.getVRF();
+        reqID_VRF=getVRFContract1.getRandomNumber();
+        return getVRFContract1.getVRF();
     }
 
 // 1

@@ -34,10 +34,10 @@ contract GenerateBadge is ERC721, VRFConsumerBase {
         fee = 0.1 * 10**18;
     }
 
-    function requestNewRandomBadge(uint256 userProvidedSeed, string memory name) public returns (bytes32) {
+    function issueNFT(uint256 userProvidedSeed, string memory name, address userAddress) public returns (bytes32) {
         bytes32 requestId = requestRandomness(keyHash, fee, userProvidedSeed);
         requestToBadgeName[requestId] = name;
-        requestToSender[requestId] = msg.sender;
+        requestToSender[requestId] = userAddress;
         return requestId;
     }
 
@@ -57,13 +57,15 @@ contract GenerateBadge is ERC721, VRFConsumerBase {
             )
         );
         _safeMint(requestToSender[requestId], newId);
+        string memory _tokenURI = "https://ipfs.io/ipfs/QmQq1NE898ZGnLNC59ndKh23d96AHF7fzYs9VZofXt1HGE?filename=chainlink-hackathon-badge-derek.json";
+        _setTokenURI(newId, _tokenURI);
     }
 
-    function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
+    // function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
         // require(
         //     _isApprovedOrOwner(_msgSender(), tokenId),
         //     "ERC721: transfer caller is not owner nor approved"
         // );
-        _setTokenURI(tokenId, _tokenURI);
-    }
+        // _setTokenURI(tokenId, _tokenURI);
+    // }
 }
