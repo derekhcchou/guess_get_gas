@@ -17,7 +17,7 @@ interface GetCurrencyInfoInterface {
 }
 
 interface GetAnswerInterface {
-  function strAdd(string calldata _a, bytes32 _b, string calldata _c) external returns(string memory);
+  function strAdd(string calldata _a, string calldata _b, string calldata _c) external returns(string memory);
   function getVolume() external view returns (uint256);
   function requestVolumeData(string calldata _currenyName, string calldata _questionName, string calldata _apiUrl) external returns (bytes32 requestId);
 }
@@ -34,6 +34,7 @@ contract AddGameInfo is ChainlinkClient{
     int256 public monthlyGameQuantity;
     bytes32 public reqID_VRF;
     int256 public rand_b;
+    uint public randomNum;
 
 // Key: gameListId
     struct GameList{
@@ -159,7 +160,8 @@ contract AddGameInfo is ChainlinkClient{
         LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
         require(linkToken.transfer(GetVRFInterfaceAddress, linkToken.balanceOf(address(this))), "Unable to transfer");
         reqID_VRF=getVRFContract.getRandomNumber();
-        return getVRFContract.getVRF();
+        randomNum=getVRFContract.getVRF();
+        return randomNum;
     }
 
 // 3.5
@@ -186,9 +188,9 @@ contract AddGameInfo is ChainlinkClient{
     function makeDailyGame() public{
         for(int256 i=1;i<=3;i++){  // i=1 daily,i=2 weekly,i=3 monthly
             for(int256 gameId=1;gameId<=lifeLengthList[i].gameQuantity;gameId++){
-                gameList[gameId].questionId = int256(getRandom()) % 2 + 1;
-                makeOptions(int256(getRandom()) % 2 + 1, gameId);
-                gameList[gameId].currencyId = int256(getRandom()) % currencyQuantity + 1;
+                gameList[gameId].questionId = int256(randomNum) % 2 + 1;
+                makeOptions(int256(randomNum) % 2 + 1, gameId);
+                gameList[gameId].currencyId = int256(randomNum) % currencyQuantity + 1;
                 gameList[gameId].revealTime = 0;
                 gameList[gameId].lifeLengthId = i;
                 gameList[gameId].property = propertyList[1];
@@ -214,8 +216,8 @@ contract AddGameInfo is ChainlinkClient{
             int256 numOfParticipants;
         }
     */
-    /*
-    function returnGameInfo() public returns(GameInfo memory){
+
+    function returnGameInfo(int256 _gameId) public view returns(bytes32){
         GameInfo[4] memory gameInfo;
         for(int256 i=1;i<=3;i++){  // i=1 daily,i=2 weekly,i=3 monthly
             for(int256 gameId=1;gameId<=lifeLengthList[i].gameQuantity;gameId++){
@@ -231,29 +233,40 @@ contract AddGameInfo is ChainlinkClient{
                 }
             }
         }
-        return(gameInfo[0]);
+        return gameInfo[uint(_gameId)].gameTitle;
     }
-    */
+
+    function bytes32ToString(bytes32 _bytes32) public returns (string memory) {
+        uint8 i = 0;
+        while(i < 32 && _bytes32[i] != 0) {
+            i++;
+        }
+        bytes memory bytesArray = new bytes(i);
+        for (i = 0; i < 32 && _bytes32[i] != 0; i++) {
+            bytesArray[i] = _bytes32[i];
+        }
+        return string(bytesArray);
+    }
 
     function getAnswer(int256 _gameId) public{
         string memory url_main;
         string memory url_sub;
         bytes32 reqID;
+        string memory currencyName=bytes32ToString(currencyList[gameList[_gameId].currencyId].name);
 
 
         url_main="https://min-api.cryptocompare.com/data/pricemultifull?fsyms=";
         url_sub="&tsyms=USD";
 
-
         LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
         require(linkToken.transfer(GetAnswerInterfaceAddress, linkToken.balanceOf(address(this))), "Unable to transfer");
 
-        reqID=getAnswerContract.requestVolumeData(getAnswerContract.strAdd("", currencyList[gameList[_gameId].currencyId].name, ""), questionList[gameList[_gameId].questionId].questionName, getAnswerContract.strAdd(url_main, currencyList[gameList[_gameId].currencyId].name, url_sub));
+        reqID=getAnswerContract.requestVolumeData(currencyName, questionList[gameList[_gameId].questionId].questionName, getAnswerContract.strAdd(url_main, currencyName, url_sub));
 
     }
 
     function returnAnswer() public view returns(uint256){
-        return getAnswerContract.getVolume();
+        //return getAnswerContract.getVolume();
     }
 
 
@@ -262,6 +275,8 @@ contract AddGameInfo is ChainlinkClient{
     function addParticipant(int256 _gameId, address _userAddress, int256 _optionId) public{
         optionsList[_gameId][_optionId].userAddress.push(_userAddress);
     }
+
+
 
 
 
