@@ -3,7 +3,7 @@
 
 pragma solidity >=0.6.0 <0.9.0;
 
-import "https://raw.githubusercontent.com/smartcontractkit/chainlink/develop/evm-contracts/src/v0.6/ChainlinkClient.sol";
+import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
 
 
 interface GetCoinInfoInterface {
@@ -20,7 +20,7 @@ interface GetVRFInterface {
     function getRandomNumber() external returns (bytes32 requestId);
 }
 
-contract CallContract is ChainlinkClient{
+contract MakeQuestions is ChainlinkClient{
     int256 public coinQuantity;
     int256 public gameQuantity;
     bytes32 public reqID_VRF;
