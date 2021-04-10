@@ -13,6 +13,7 @@ import {checkUserHasSingedIn} from "../helpers/utility"
 import Footer from "./Footer"
 import { isArray, isEmpty } from "lodash";
 import {loadWeb3, loadBlockchainData, getAllUserGameList} from "../helpers/accountHelper"
+import { getGameInfoList } from "../helpers/gameHelper";
 
 const AppContent: React.FC = ({}) =>{
     // useContext
@@ -31,9 +32,8 @@ const AppContent: React.FC = ({}) =>{
 
      useEffect(()=>{
         const sessionGameInfo = getSessionObject("gameInfo");
-        console.log("sessionGameInfo", sessionGameInfo)
         if(isEmpty(sessionGameInfo) || (isArray(sessionGameInfo) && sessionGameInfo.length ===0)){
-           console.log("loading game info")
+            getGameInfoList();
             const getGameInfo:IGameInfoType[] = gameListMock;
             context.dispatch({
                 gameInfo:getGameInfo,
