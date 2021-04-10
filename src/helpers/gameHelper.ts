@@ -12,7 +12,6 @@ export const getGameInfoList = async (
       .getAvailableGameIds() //account
       .call()
     gameInfoList = await getGameInfoByIds(res,tokenFarm);
-    console.log("getGameInfoList", gameInfoList);
     return gameInfoList;
   }catch(err){
     console.log("Error: ", err);
@@ -47,7 +46,7 @@ export const getGameInfoByIds = async (ids:string[], tokenFarm: any)=>{
         gameParticipateStartTime:new Date(parseInt(res.gameParticipateStartTime, 10)).toString(),
         gameWindow: res.gameWindow,
         gameProperty:res.gameProperty,
-        gamePropertyLogoLink: res.gamePropertyLogoLink,
+        gamePropertyLogoLink: "https://www.cryptocompare.com/"+res.gameLogoLink,
         numOfParticipants: Number(res.numOfParticipants),
         totalPrice: 0,
       }
