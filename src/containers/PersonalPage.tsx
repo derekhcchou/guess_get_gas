@@ -6,6 +6,7 @@ import {styles} from "../helpers/styles";
 import {numberWithCommas} from "../helpers/utility";
 import {isNumber} from "lodash";
 import { reloadBalance, withdrawBalance,stakeTokens, unstakeTokens } from '../helpers/accountHelper';
+import { getGameInfoList } from '../helpers/gameHelper';
 import { setSessionObject } from '../context/sessionStore';
 
 const PersonalPage: React.FC<{}>=({})=>{
@@ -96,7 +97,7 @@ const PersonalPage: React.FC<{}>=({})=>{
                         </Card.Subtitle>
                         <Card.Body>
                             <a href="#" onClick={()=>{setShowReloadModal(true)}}>Reload Now!</a><br />
-                            <a href="#" onClick={()=>{setShowWithdrawModal(true)}}>Withdraw</a>
+                            <a href="#" onClick={()=>{setShowWithdrawModal(true)}}>Withdraw</a><br />
                         </Card.Body>
                         </Col>
                     </Row>

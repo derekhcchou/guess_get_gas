@@ -23,6 +23,7 @@ const AppContent: React.FC = ({}) =>{
 
      // might need to move to context cuz this value should be relied on hasSingedIn
      const [isLoadingAccount, setLoadingAccount] = useState(false);
+     const [isLoadingGames, setLoadingGames] = useState(false);
      const [showWalletModal, setShowWalletModal] = useState(false);
      const handleShow = () => setShowWalletModal(true);
      const hasSingedIn = checkUserHasSingedIn(userData );
@@ -31,15 +32,24 @@ const AppContent: React.FC = ({}) =>{
      }
 
      useEffect(()=>{
-        const sessionGameInfo = getSessionObject("gameInfo");
-        if(isEmpty(sessionGameInfo) || (isArray(sessionGameInfo) && sessionGameInfo.length ===0)){
-            getGameInfoList();
-            const getGameInfo:IGameInfoType[] = gameListMock;
-            context.dispatch({
-                gameInfo:getGameInfo,
-            });
-            setSessionObject("gameInfo", getGameInfo);
-          }
+        if(!isLoadingGames){
+            const sessionGameInfo = getSessionObject("gameInfo");
+            if(
+                ((!sessionGameInfo || isEmpty(sessionGameInfo) || sessionGameInfo.length===0) 
+                && (!gameInfo || isEmpty(gameInfo) || gameInfo.length===0)
+            )){
+                setSessionObject("gameInfo", gameListMock);
+                context.dispatch({
+                    gameInfo:gameListMock,
+                });
+            }else if(!sessionGameInfo){
+                setSessionObject("gameInfo", gameInfo);
+            }else if(!gameInfo){
+                context.dispatch({
+                    gameInfo:sessionGameInfo,
+                });
+            }
+        }
     });
 
      const handleSingOut= ()=>{
@@ -53,9 +63,11 @@ const AppContent: React.FC = ({}) =>{
      const storeUserData = async () => {
         setLoadingAccount(true);
         await loadWeb3();
+        const gameInfoList = await getGameInfoList();
         const accountDetails = await loadBlockchainData(gameInfo);
         context.dispatch({
-            userData:accountDetails,
+            userData: accountDetails,
+            gameInfo: gameInfoList
         })
         history.push("/gameLobby");
         setShowWalletModal(false);
