@@ -4,7 +4,7 @@ import DappToken from "../abis/DappToken.json"
 import TokenFarm from "../abis/TokenFarm.json"
 import ERC20 from "../abis/ERC20.json"
 import {IGameInfoType, IUserDataType, IUserGame} from "./types"
-import { isNumber } from "lodash"
+import { isEmpty, isNumber } from "lodash"
 import { ITabUserOptions } from "@testing-library/user-event"
 
 const tokenAddress = "0xFab46E002BbF0b4509813474841E0716E6730136"; // FAU token address
@@ -159,7 +159,7 @@ export const getUserBalance = async (
 
 export const getAllUserGameList = async (tokenFarm: any, userAddress: string, gameInfo: IGameInfoType[]) =>{
   let userGameList: IUserGame[]=[];
-  if(tokenFarm.methods?. getUserGameInfo){
+  if(tokenFarm.methods?.getUserGameInfo){
     gameInfo.forEach(async (game)=>{
       const res = await tokenFarm.methods
         .getUserGameInfo(userAddress, game.gameId) //account
@@ -257,11 +257,10 @@ export const joinNewGame = async (userData: IUserDataType, amount: string, gameI
 
 
 export const getTokenFarm = async (networkId:Number)=>{
-  loadWeb3();
   //@ts-ignore
   const tokenFarmData = TokenFarm.networks[networkId];
   const web3 = window.web3;
-  let tokenFarm,stakingBalance, userStuff;
+  let tokenFarm;
   if (tokenFarmData) {
     tokenFarm = new web3.eth.Contract(
       TokenFarm.abi,
