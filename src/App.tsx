@@ -1,5 +1,5 @@
 
-import React, {useReducer, useMemo} from 'react';
+import {useReducer, useMemo} from 'react';
 import { AppStateContext, AppStateReducer,initializingAppStateWithSession } from "./context/AppContext";
 import { IAppStateType, initial_AppState } from "./helpers/types";
 import AppContent from './containers/AppContent'
