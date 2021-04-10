@@ -19,7 +19,7 @@ Guess, Get Gas is a guessing game that introduces pieces of information on crypt
 
 ## Architecture diagram
 
-<img src="src/ggg-flowchart.png">
+<img src="src/ggg-flowchart-1.png">
 
 # Build & Run platform
 This repository includes:
