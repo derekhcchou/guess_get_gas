@@ -35,3 +35,8 @@ truffle compile
 ```
 
 ## If we had more time to take this proof of concept further we would...
+* Add more fields of questions, including weather api, NASA api etc., to enrich our questions database.
+* Improve profile page to show personal winning and current balance.
+* Improve UI/UX.
+* Integrate compound api to generate interest.
+* Integrate cron initiators to generate questions.
