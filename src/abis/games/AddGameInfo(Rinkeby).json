@@ -1,0 +1,395 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "_gameId",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "int256",
+				"name": "_optionId",
+				"type": "int256"
+			}
+		],
+		"name": "addParticipant",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "id",
+				"type": "bytes32"
+			}
+		],
+		"name": "ChainlinkCancelled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "id",
+				"type": "bytes32"
+			}
+		],
+		"name": "ChainlinkFulfilled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "id",
+				"type": "bytes32"
+			}
+		],
+		"name": "ChainlinkRequested",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "getCurrencyList",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getRandom",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "makeCurrencyList",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "makeDailyGame",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "_questionId",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "_gameId",
+				"type": "int256"
+			}
+		],
+		"name": "makeOptions",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "returnGameInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "currencyList",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "name",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "fullName",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "overviewUrl",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "assetLaunchDate",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "logoUrl",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes",
+				"name": "currencyIntro",
+				"type": "bytes"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "currencyQuantity",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "dailyGameQuantity",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "gameList",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "questionId",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "currencyId",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "revealTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "int256",
+				"name": "lifeLengthId",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "property",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "isActivity",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isClose",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "lifeLengthList",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "lifeLength",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "gameQuantity",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "monthlyGameQuantity",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "optionsList",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "optionsContet",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "userQuantity",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "propertyList",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "questionList",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "questionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "questionDescription",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rand_b",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "reqID_VRF",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "weeklyGameQuantity",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
