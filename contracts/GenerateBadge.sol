@@ -3,67 +3,26 @@
 pragma solidity ^0.6.6;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract GenerateBadge is ERC721, VRFConsumerBase {
-    bytes32 public keyHash;
-    address public vrfCoordinator;
-    uint256 internal fee;
+contract GenerateBadge is ERC721 {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
 
-    uint256 public randomResult;
+    mapping (string => string) public badgeUrls;
 
-    struct Badge {
-        uint256 strength;
-        uint256 speed;
-        uint256 stamina;
-        string name;
-    }
-
-    Badge[] public badges;
-
-    // mappings will go here
-    mapping(bytes32 => string) requestToBadgeName;
-    mapping(bytes32 => address) requestToSender;
-    mapping(bytes32 => uint256) requestToTokenId;
-
-    constructor(address _VRFCoordinator, address _LinkToken, bytes32 _keyhash)
-    VRFConsumerBase(_VRFCoordinator, _LinkToken)
+    constructor()
     ERC721("GGGBadge", "GGGB") public {
-        vrfCoordinator = _VRFCoordinator;
-        keyHash = _keyhash;
-        fee = 0.1 * 10**18;
+        badgeUrls["ltc"] = "https://ipfs.io/ipfs/QmbtyXLB9ibUyZ9YweQhJT24bWVydQnUHyh5DRxbvhH4h9?filename=nft-ltc.json";
+        badgeUrls["eth"] = "https://ipfs.io/ipfs/Qmc3C7uEKqrUBokwtzDM8VABjmmJoRZP5maLyBDNfNFtN8?filename=nft-eth.json";
+        badgeUrls["btc"] = "https://ipfs.io/ipfs/QmQEjHeGCChtYYm84oTEcDKDCUdWpbzw5KuLQAxcCXqi3b?filename=nft-btc.json";
     }
 
-    function requestNewRandomBadge(uint256 userProvidedSeed, string memory name) public returns (bytes32) {
-        bytes32 requestId = requestRandomness(keyHash, fee, userProvidedSeed);
-        requestToBadgeName[requestId] = name;
-        requestToSender[requestId] = msg.sender;
-        return requestId;
-    }
+    function issueNFT(string memory name, address userAddress) public {
+        _tokenIds.increment();
+        uint256 newNftTokenId = _tokenIds.current();
 
-    function fulfillRandomness(bytes32 requestId, uint256 randomNumber) internal override {
-        // define the creation of the NFT
-        uint256 newId = badges.length;
-        uint256 strength = (randomNumber % 100);
-        uint256 speed = ((randomNumber % 10000) / 100);
-        uint256 stamina = ((randomNumber % 1000000) / 100000);
-
-        badges.push(
-            Badge(
-                strength,
-                speed,
-                stamina,
-                requestToBadgeName[requestId]
-            )
-        );
-        _safeMint(requestToSender[requestId], newId);
-    }
-
-    function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
-        // require(
-        //     _isApprovedOrOwner(_msgSender(), tokenId),
-        //     "ERC721: transfer caller is not owner nor approved"
-        // );
-        _setTokenURI(tokenId, _tokenURI);
+        _safeMint(userAddress, newNftTokenId);
+        _setTokenURI(newNftTokenId, badgeUrls[name]);
     }
 }
