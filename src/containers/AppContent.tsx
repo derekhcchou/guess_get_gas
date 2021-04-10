@@ -6,13 +6,14 @@ import {Container, Modal, Button, Spinner} from "react-bootstrap";
 import {AppStateContext} from "../context/AppContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {styles} from "../helpers/styles";
-import {IGameInfoType, IUserDataType, Init_UserData, IUserGame} from "../helpers/types";
+import {IGameInfoType, Init_UserData, IUserGame} from "../helpers/types";
 import {gameListMock} from "./mockData";
 import {setSessionObject,resetSessionStorage, getSessionObject} from "../context/sessionStore";
 import {checkUserHasSingedIn} from "../helpers/utility"
 import Footer from "./Footer"
 import { isArray, isEmpty } from "lodash";
 import {loadWeb3, loadBlockchainData, getAllUserGameList} from "../helpers/accountHelper"
+import { getGameInfoList } from "../helpers/gameHelper";
 
 const AppContent: React.FC = ({}) =>{
     // useContext
@@ -29,11 +30,17 @@ const AppContent: React.FC = ({}) =>{
         setShowWalletModal(false)
      }
 
+     // Initial call to load the list of games from calling contract and store
+     // them to context for further use
      useEffect(()=>{
+        // Check if the brower already has the info
         const sessionGameInfo = getSessionObject("gameInfo");
-        console.log("sessionGameInfo", sessionGameInfo)
+        
+        // If the session does not exist or the structure is incorrect,
+        // Call contract to retrieve the latest game list
         if(isEmpty(sessionGameInfo) || (isArray(sessionGameInfo) && sessionGameInfo.length ===0)){
-           console.log("loading game info")
+           console.log("loading game info", getGameInfoList());
+            // loadWeb3();
             const getGameInfo:IGameInfoType[] = gameListMock;
             context.dispatch({
                 gameInfo:getGameInfo,
