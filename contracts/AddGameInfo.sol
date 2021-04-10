@@ -35,6 +35,7 @@ contract AddGameInfo is ChainlinkClient{
     bytes32 public reqID_VRF;
     int256 public rand_b;
     uint public randomNum;
+    int256 public totalGameQty;
 
 // Key: gameListId
     struct GameList{
@@ -186,16 +187,18 @@ contract AddGameInfo is ChainlinkClient{
 
 // 3
     function makeDailyGame() public{
+      totalGameQty=1;
         for(int256 i=1;i<=3;i++){  // i=1 daily,i=2 weekly,i=3 monthly
             for(int256 gameId=1;gameId<=lifeLengthList[i].gameQuantity;gameId++){
-                gameList[gameId].questionId = int256(randomNum) % 2 + 1;
-                makeOptions(int256(randomNum) % 2 + 1, gameId);
-                gameList[gameId].currencyId = int256(randomNum) % currencyQuantity + 1;
-                gameList[gameId].revealTime = 0;
-                gameList[gameId].lifeLengthId = i;
-                gameList[gameId].property = propertyList[1];
-                gameList[gameId].isActivity = false;
-                gameList[gameId].isClose = false;
+                gameList[totalGameQty].questionId = int256(randomNum) % 2 + 1;
+                makeOptions(int256(randomNum) % 2 + 1, totalGameQty);
+                gameList[totalGameQty].currencyId = int256(randomNum) % currencyQuantity + 1;
+                gameList[totalGameQty].revealTime = 0;
+                gameList[totalGameQty].lifeLengthId = i;
+                gameList[totalGameQty].property = propertyList[1];
+                gameList[totalGameQty].isActivity = false;
+                gameList[totalGameQty].isClose = false;
+                totalGameQty++;
             }
         }
     }
