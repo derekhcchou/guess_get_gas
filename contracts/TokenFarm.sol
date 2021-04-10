@@ -6,12 +6,14 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol";
 
-contract TokenFarm is Ownable {
+import "./AddGameInfo.sol";
+
+contract TokenFarm is Ownable, AddGameInfo {
     // string public name = "Dapp Token Farm";
     string public name = "Crypto Gas Earning";
     IERC20 public dappToken;
 
-    struct GameInfo {
+    struct UserGameInfo {
         uint256 gameId; // game id
         uint8 answerId; // answer chosen by user
         uint256 amount; // bet amount on this game
@@ -22,12 +24,12 @@ contract TokenFarm is Ownable {
     struct UserData {
         address addr; // user wallet address
         uint256 balance; // user balance stored in the contract, including ones in the games
-        mapping(uint256 => GameInfo) gameInfoStructs;
+        mapping(uint256 => UserGameInfo) gameInfoStructs;
     }
 
     // UserData Map
     mapping(address => UserData) public userDataStructs;
-    mapping(address => mapping(uint256 => GameInfo)) public userGameStructs;
+    mapping(address => mapping(uint256 => UserGameInfo)) public userGameStructs;
     mapping(address => bool) public userList;
     uint256 totalContractBalance;
 
