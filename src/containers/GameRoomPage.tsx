@@ -143,10 +143,11 @@ const GameRoomPage: React.FC = () =>{
                     <h5>Story of {selectedGame.gameProperty}:</h5>
                     <Container >
                         <Row >
-                            <Col xs={9} >
+                            <Col xs={7} >
                                 {selectedGame.gameDestribtion}<br />
                             </Col>
-                            <Col xs={3} className = "my-auto">
+                            <Col xs={1} ></Col>
+                            <Col xs={4} className="my-auto">
                             <div>
                                 <img src={selectedGame.gamePropertyLogoLink} 
                                     alt={`Logo of ${selectedGame.gameProperty}`} 
@@ -167,6 +168,7 @@ const GameRoomPage: React.FC = () =>{
                                     return (
                                         <label  className = {isOptionDisabled ? "optionDisabled":"optionEnabled"}>
                                             <input type="radio" 
+                                                className="radio-button"
                                                 name="options" 
                                                 value={ansOption.answerId}  
                                                 onClick={()=>{

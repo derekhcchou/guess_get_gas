@@ -6,7 +6,7 @@ module.exports = async function(deployer, network, accounts) {
   const dappToken = await DappToken.deployed();
   await deployer.deploy(TokenFarm, dappToken.address);
   const tokenFarm = await TokenFarm.deployed();
-  await dappToken.transfer(tokenFarm.address, "1000000000000000000000000");
+  // await dappToken.transfer(tokenFarm.address, "1000000000000000000000000");
 
   // if (network.startsWith("kovan") || network.startsWith("live")) {
   //   // LINK Token address
@@ -34,8 +34,9 @@ module.exports = async function(deployer, network, accounts) {
   // }
 
   // Initialization for the game
-  await tokenFarm.getRandom();
-  await tokenFarm.getCurrencyList();
-  await tokenFarm.makeDailyGame();
-  await tokenFarm.returnAvailableGameIdsString();
+    // await tokenFarm.getRandom();
+    await tokenFarm.getCurrencyList();
+    await tokenFarm.makeDailyGame();
+    await tokenFarm.activeGameStatus();
+    await tokenFarm.storeAvailableGameIds();
 };

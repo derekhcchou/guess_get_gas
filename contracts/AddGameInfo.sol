@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.6.0 <0.9.0;
+pragma experimental ABIEncoderV2;
 
 import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
 
@@ -93,18 +94,19 @@ contract AddGameInfo is ChainlinkClient {
 
     struct GameInfo {
         int256 gameId;
-        bytes32 gameTitle;
+        string gameTitle;
         string gameQuestion;
-        bytes gameDescription;
+        string gameDescription;
         uint256 gameParticipateStartTime;
         string gameWindow; // Daily, Weekly, Monthly, Lifetime
         string gameProperty;
-        bytes32 gameLogoLink;
+        string gameLogoLink;
         int256 numOfParticipants;
     }
 
     mapping(int256 => CurrencyList) public currencyList;
     mapping(int256 => GameList) public gameList;
+    mapping(int256 => GameInfo) public gameInfoList;
     mapping(int256 => mapping(int256 => OptionsList)) public optionsList; // key: gamiListId
     mapping(int256 => string) public propertyList;
     mapping(int256 => LifeLengthList) public lifeLengthList;
@@ -130,14 +132,27 @@ contract AddGameInfo is ChainlinkClient {
         questionList[1]
             .questionDescription = "Guess the second digit after the decimal point";
 
-        questionList[2].questionName = "VOLUME";
-        questionList[2]
+        questionList[2].questionName = "PRICE";
+        questionList[2].questionDescription = "Guess the units";
+
+        questionList[3].questionName = "PRICE";
+        questionList[3].questionDescription = "Guess the tens";
+
+        questionList[4].questionName = "PRICE";
+        questionList[4].questionDescription = "Guess the hundreds";
+
+        questionList[5].questionName = "PRICE";
+        questionList[5]
+            .questionDescription = "Guess the first digit after the decimal point";
+
+        questionList[6].questionName = "VOLUME";
+        questionList[6]
             .questionDescription = "Guess remainder of volume divided by 3";
 
         propertyList[1] = "Crypto Currency";
 
         lifeLengthList[1].lifeLength = 1;
-        lifeLengthList[1].gameQuantity = 30;
+        lifeLengthList[1].gameQuantity = 10;
         lifeLengthList[1].title = "Daily";
 
         lifeLengthList[2].lifeLength = 7;
@@ -182,7 +197,7 @@ contract AddGameInfo is ChainlinkClient {
         }
     }
 
-    function getRandom() public returns (uint256) {
+    function getRandom() public returns (int256) {
         LinkTokenInterface linkToken =
             LinkTokenInterface(chainlinkTokenAddress());
         require(
@@ -193,8 +208,8 @@ contract AddGameInfo is ChainlinkClient {
             "Unable to transfer"
         );
         reqID_VRF = getVRFContract.getRandomNumber();
-        randomNum = getVRFContract.getVRF();
-        return randomNum;
+        randomNum = getVRFContract.getVRF() / 10000000;
+        return int256(randomNum);
     }
 
     // 3.5
@@ -218,7 +233,12 @@ contract AddGameInfo is ChainlinkClient {
     }
 
     // 3
+    int256 currentTotalGameQty;
+
     function makeDailyGame() public {
+        currentTotalGameQty = 1;
+        uint8 totalQuestion = 6;
+        randomNum = now / 10000000;
         for (int256 i = 1; i <= 3; i++) {
             // i=1 daily,i=2 weekly,i=3 monthly
             for (
@@ -226,34 +246,82 @@ contract AddGameInfo is ChainlinkClient {
                 gameId <= lifeLengthList[i].gameQuantity;
                 gameId++
             ) {
-                gameList[gameId].questionId = (int256(randomNum) % 2) + 1;
-                makeOptions((int256(randomNum) % 2) + 1, gameId);
-                gameList[gameId].currencyId =
-                    (int256(randomNum) % currencyQuantity) +
+                // gameList for indexes
+                gameList[currentTotalGameQty].questionId = int256(
+                    ((int256(randomNum) * gameId) % totalQuestion) + 1
+                );
+                makeOptions(
+                    ((int256(randomNum) * gameId) % 2) + 1,
+                    currentTotalGameQty
+                );
+                gameList[currentTotalGameQty].currencyId =
+                    ((int256(randomNum) * gameId) % currencyQuantity) +
                     1;
-                gameList[gameId].revealTime = 0;
-                gameList[gameId].lifeLengthId = i;
-                gameList[gameId].property = propertyList[1];
-                gameList[gameId].isActivity = false;
-                gameList[gameId].isClose = false;
+                gameList[currentTotalGameQty].revealTime = 0;
+                gameList[currentTotalGameQty].lifeLengthId = i;
+                gameList[currentTotalGameQty].property = propertyList[1];
+                gameList[currentTotalGameQty].isActivity = false;
+                gameList[currentTotalGameQty].isClose = false;
+
+                // gameInfo for details
+                gameInfoList[currentTotalGameQty].gameId = currentTotalGameQty;
+                gameInfoList[currentTotalGameQty].gameTitle = bytes32ToString(
+                    currencyList[gameList[currentTotalGameQty].currencyId].name
+                );
+                gameInfoList[currentTotalGameQty].gameQuestion = questionList[
+                    gameList[currentTotalGameQty].questionId
+                ]
+                    .questionDescription;
+                // gameInfoList[currentTotalGameQty].gameDescription = currencyList[gameList[currentTotalGameQty].currencyId].currencyIntro;
+                gameInfoList[currentTotalGameQty].gameDescription = "";
+                gameInfoList[currentTotalGameQty]
+                    .gameParticipateStartTime = now;
+                gameInfoList[currentTotalGameQty].gameWindow = lifeLengthList[
+                    gameList[currentTotalGameQty].lifeLengthId
+                ]
+                    .title;
+                gameInfoList[currentTotalGameQty].gameProperty = gameList[
+                    currentTotalGameQty
+                ]
+                    .property;
+                gameInfoList[currentTotalGameQty]
+                    .gameLogoLink = bytes32ToString(
+                    currencyList[gameList[currentTotalGameQty].currencyId]
+                        .logoUrl
+                );
+                gameInfoList[currentTotalGameQty].numOfParticipants = 0;
+
+                currentTotalGameQty++;
             }
         }
     }
 
-    // int256[] availableGameIds;
+    // 4
+    function activeGameStatus() public {
+        for (int256 i = 1; i < 6; i++) {
+            gameList[i].isActivity = true;
+        }
+    }
 
-    // function returnAvailableGameIdsString() public returns (int256[] memory) {
-    //     int256 totalGameQty =
-    //         lifeLengthList[1].gameQuantity +
-    //             lifeLengthList[2].gameQuantity +
-    //             lifeLengthList[3].gameQuantity;
-    //     for (int256 gameId = totalGameQty; gameId > 0; gameId--) {
-    //         if (gameList[gameId].isActivity || gameList[gameId].isClose) {
-    //             // availableGameIds.push(gameId);
-    //         }
-    //     }
-    //     return availableGameIds;
-    // }
+    int256[] availableGameIds;
+
+    function storeAvailableGameIds() public {
+        delete availableGameIds;
+        int256 totalGameQty =
+            lifeLengthList[1].gameQuantity +
+                lifeLengthList[2].gameQuantity +
+                lifeLengthList[3].gameQuantity;
+        for (int256 gameId = totalGameQty; gameId > 0; gameId--) {
+            if (gameList[gameId].isActivity || gameList[gameId].isClose) {
+                availableGameIds.push(gameId);
+            }
+        }
+    }
+
+    function getAvailableGameIds() public view returns (int256[] memory) {
+        int256[] memory list = availableGameIds;
+        return list;
+    }
 
     function bytes32ToString(bytes32 _bytes32) public returns (string memory) {
         uint8 i = 0;
