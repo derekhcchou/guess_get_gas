@@ -34,6 +34,17 @@ This application is built using truffle, nodejs, solidity, and chainlink, infura
 ## Build & Run platform
 This repository includes:
 
+
+## Install dependencies
+
+```sh
+# install packages. 
+npm install
+
+# compile contracts
+truffle compile
+```
+
 ## Challenges we ran into
 
 1. At first, price feed results of chainlink oracle only works on kovan, then we encountered that nodes on kovan is unstable, which leads to uncertain result.
@@ -55,18 +66,6 @@ We've learnt the basic flow of a smart contract, the usage of chainlink oracles,
 
 After a crypto version of GGG, we hope to integrate with open apis of other fields, such as NASA api, weather api etc., to enrich our questions with different kinds of topics, making GGG an entertaining and yet knowledgeable Dapp.
 
-
-#### Install dependencies
-
-```sh
-# install packages. 
-npm install
-
-# compile contracts
-truffle compile
-```
-
-## If we had more time to take this proof of concept further we would...
 * Add more fields of questions, including weather api, NASA api etc., to enrich our questions database.
 * Improve profile page to show personal winning and current balance.
 * Improve UI/UX.
