@@ -15,7 +15,7 @@ contract RandomNumberConsumer is VRFConsumerBase {
     /**
      * Constructor inherits VRFConsumerBase
      *
-     * Network: Rinkeby
+     * Network: Polygon
      */
     constructor()
         VRFConsumerBase(
@@ -24,7 +24,7 @@ contract RandomNumberConsumer is VRFConsumerBase {
         ) public
     {
         keyHash = 0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4;
-        fee = 0.0001 * 10 ** 18; // 0.1 LINK
+        fee = 0.0001 * 10 ** 18; // 0.0001 LINK
     }
 
     /**

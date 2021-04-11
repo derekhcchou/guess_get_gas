@@ -17,6 +17,13 @@ contract getAnswer is ChainlinkClient {
     bytes32 private jobId;
     uint256 private fee;
 
+    /*
+     * Network: Polygon
+     * JobsId(Get -> Uint256) - 5592aa6da3d64580933fce0401d373f0
+     * Node - 0xb33D8A4e62236eA91F3a8fD7ab15A95B9B7eEc7D
+     * ChainlinkToken - 0x326C977E6efc84E512bB9C30f76E30c160eD06FB
+     * Fee: 0.1 LINK
+     */
     constructor() public {
         setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
         oracle = 0xb33D8A4e62236eA91F3a8fD7ab15A95B9B7eEc7D;

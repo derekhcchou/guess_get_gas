@@ -37,7 +37,7 @@ contract AddGameInfo is ChainlinkClient{
     uint public randomNum=now/10000000;
     int256 public totalGameQty;
 
-// Key: gameListId
+
     struct GameList{
         int256 questionId;  // 2 items
         int256 currencyId;  // which currency  // currencyQuantity items
@@ -58,7 +58,7 @@ contract AddGameInfo is ChainlinkClient{
     }
 
     struct QuestionList{
-        string questionName;  //path
+        string questionName;  //json path
         string questionDescription;  //question text
     }
 
@@ -91,21 +91,24 @@ contract AddGameInfo is ChainlinkClient{
 
 
 
-    mapping (int256 => CurrencyList) public currencyList;
-    mapping (int256 => GameList) public gameList;
-    mapping (int256 => mapping (int256 => OptionsList)) public optionsList;  // key: gamiListId
+    mapping (int256 => CurrencyList) public currencyList; //key: currencyId
+    mapping (int256 => GameList) public gameList;  // key: gameListId
+    mapping (int256 => mapping (int256 => OptionsList)) public optionsList;  // key1: gameListId, key2: optionsListId
     mapping (int256 => string) public propertyList;
     mapping (int256 => LifeLengthList) public lifeLengthList;
     mapping (int256 => QuestionList) public questionList;
 
 
-
+    /*
+     * Network: Polygon
+     */
     address GetCurrencyInfoInterfaceAddress = 0x59F08372ab30E64F61AF8594c1163379ACAD27C5;
     GetCurrencyInfoInterface getCurrencyInfoContract = GetCurrencyInfoInterface(GetCurrencyInfoInterfaceAddress);
 
     address GetAnswerInterfaceAddress = 0xbE56D8D1d1a529DD83F1188d3B0949A2828F45a5;
     GetAnswerInterface getAnswerContract = GetAnswerInterface(GetCurrencyInfoInterfaceAddress);
 
+// Make randomnumber
     address GetVRFInterfaceAddress = 0xa7986Fb6438db392b60aaA6Fba3b1B7c5514dD10;
     GetVRFInterface getVRFContract = GetVRFInterface(GetVRFInterfaceAddress);
 
