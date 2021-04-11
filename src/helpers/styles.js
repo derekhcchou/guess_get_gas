@@ -1,10 +1,11 @@
+import { nodeModuleNameResolver } from "typescript";
+
 export const styles = {
     
     page:{
         "background": "#001233",
         "font-family": "Monospace"
     },
-
     // account page
     balance:{
         "margin": "10px",
@@ -16,23 +17,15 @@ export const styles = {
     // Landing Page
     gameRoomCardStyle:{
         "width":"20rem",
-        "height":"20rem",
-        "padding": "15px",
+        "height":"22rem",
+        "padding": "25px",
+        "margin": "5px",
         "background": "#001233",
         "border-radius": "2px",
         "font-weight": "400",
         "color": "#dddddd",
         "font-family": "Monospace",
-        "margin": "5px",
         "border": "1px solid white"
-    },
-    gameRoomBtn:{
-        "margin": "20px",
-        "border-radius": "20px",
-        "font-weight": "700",
-        "font-size":"3rem",
-        "color":"#ddd",
-        "border": "4px solid white"
     },
     gameCardStyle:{
         "padding": "0px",
@@ -50,9 +43,12 @@ export const styles = {
       "font-size": "1rem",
       "color":"#ddd",
     },
+    landingPageHeader:{
+        "font-size":"4rem",
+    },
     // Navbar Header
     headerLogoText:{
-        "color":"#ddd",
+        "color":"#aaa",
         "font-size":"2rem",
         "font-weight": "800",
         "font-family": "Geneva"
@@ -62,19 +58,24 @@ export const styles = {
         "margin-right": "10px"
     },
     headerNavText:{
-        "color":"#ddd",
+        "color":"white",
         "font-size":"1.25rem",
         "font-weight": "800",
-       
     },
     headerNavTextLight:{
-        "color":"#ddd",
+        "color":"#aaa",
         "font-size":"1.25rem",
         "font-weight": "700",
-       
     },
     header:{
         "padding": "15px",
+    },
+    loginBtn:{
+        "color":"#aaa",
+        "font-size":"1.25rem",
+        "border-radius": "20px",
+        "border-color":"#aaa",
+        "border-width":"medium",
     },
     // Popup Modal
     modalStyle:{

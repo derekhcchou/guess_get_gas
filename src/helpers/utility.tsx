@@ -36,7 +36,7 @@ export const countDownTimer = (game: IGameInfoType) => {
     if(isAfter(Date.now(), ensureIsDate(game.gameWindowStarTime))){
       return (
         <>
-          Participation Countdown: { !!game.gameWindowStarTime &&
+          { !!game.gameWindowStarTime &&
             <Countdown date={new Date("2021-04-01 00:00:00")} />
           }
         </>
@@ -44,7 +44,7 @@ export const countDownTimer = (game: IGameInfoType) => {
     }else{
       return (
         <>
-          Answer Reveal Countdown: { !!game.gameWindowEndTime &&
+          { !!game.gameWindowEndTime &&
             <Countdown date={new Date("2021-04-01 00:00:00")} />
           }
         </>

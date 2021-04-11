@@ -18,12 +18,11 @@ const GameLobbyPage: React.FC<Props> = ({
 
   return (
     <div>
-      {userData.balance === 0  && 
-          <Card style={styles.introCardStyle}>
-              Your currently account balance is $0 ETH. Please reload to participate!
-          </Card>
-      }
-      {gameInfo && gameInfo.map((game:IGameInfoType)=>{
+        <Card style={styles.introCardStyle}>
+          <div className="lobby-title">Game Lobby</div>
+          {userData.balance === 0  &&  <label>Your current account balance is $0 ETH. Please reload to participate!</label>}
+        </Card>
+        {gameInfo && gameInfo.map((game:IGameInfoType)=>{
           return (
                 <GameLobbyCard game= {game} />
             );

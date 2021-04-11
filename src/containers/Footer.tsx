@@ -6,7 +6,7 @@ type Props = {
 const Footer: React.FC<Props> = ({
 }) =>{
     return (
-        <div>
+        <div className="footer-style">
             @copyright: Crypto Guess
         </div>
     )

@@ -72,7 +72,7 @@ export const currencyDescription =
             key: "ETH",
             desc: "Ethereum is a decentralized open-source blockchain system that features its own cryptocurrency, Ether. ETH works as a platform for numerous other cryptocurrencies, as well as for the execution of decentralized smart contracts.",
         },{
-            key: "TRON",
+            key: "TRX",
             desc: "TRON is a blockchain-based operating system that aims to ensure this technology is suitable for daily use. Whereas Bitcoin can handle up to six transactions per second, and Ethereum up to 25, TRON claims that its network has capacity for 2,000 TPS — 24/7.",
         },{
             key: "XRP",

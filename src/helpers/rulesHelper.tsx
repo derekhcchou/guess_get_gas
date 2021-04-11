@@ -16,8 +16,8 @@ export const getGameroomRules = (frequent: string)=>{
 
 const generateListGroup = (itemList: string, divider: string)=>{
     const stringList = itemList.split(divider);
-    return <ListGroup className="rule-list" variant="flush">{
+    return <>{
         stringList.map((str: string)=>{
-            return <ListGroup.Item className="rule-list" >{str}</ListGroup.Item>;
-        })}</ListGroup>
+            return <ol >{str}</ol>;
+        })}</>
 }

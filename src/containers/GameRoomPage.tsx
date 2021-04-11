@@ -111,7 +111,7 @@ const GameRoomPage: React.FC = () =>{
                 }
                 {!isParticipating && userData.balance === 0  && 
                     <Card style={styles.introCardStyle}>
-                        Your currently account balance is $0 ETH. Please reload to participate!
+                        Your current account balance is $0 ETH. Please reload to participate!
                     </Card>
                 }
                 {/* Top Section */}
@@ -193,7 +193,7 @@ const GameRoomPage: React.FC = () =>{
                        </>
                     :
                         // this should be for lifetime game >> just have a button to join?
-                       <Button variant="outline-dark"  onClick={()=>{}}>
+                       <Button className="gameroom-btn" onClick={()=>{}}>
                             Join!
                         </Button>
                     }
