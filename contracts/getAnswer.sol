@@ -4,9 +4,9 @@
 
 pragma solidity ^0.6.0;
 
-import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
+import "https://raw.githubusercontent.com/smartcontractkit/chainlink/develop/evm-contracts/src/v0.6/ChainlinkClient.sol";
 
-contract GetAnswer is ChainlinkClient {
+contract makeQ is ChainlinkClient {
 
 
 
@@ -18,9 +18,9 @@ contract GetAnswer is ChainlinkClient {
     uint256 private fee;
 
     constructor() public {
-        setPublicChainlinkToken();
-        oracle = 0x7AFe1118Ea78C1eae84ca8feE5C65Bc76CcF879e;
-        jobId = "c8084988f0b54520ba17945c4a2ab7bc";
+        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
+        oracle = 0xb33D8A4e62236eA91F3a8fD7ab15A95B9B7eEc7D;
+        jobId = "5592aa6da3d64580933fce0401d373f0";
         fee = 0.1 * 10 ** 18; // 0.1 LINK
 
 

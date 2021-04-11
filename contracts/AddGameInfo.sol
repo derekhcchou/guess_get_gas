@@ -34,7 +34,7 @@ contract AddGameInfo is ChainlinkClient{
     int256 public monthlyGameQuantity;
     bytes32 public reqID_VRF;
     int256 public rand_b;
-    uint public randomNum;
+    uint public randomNum=now/10000000;
     int256 public totalGameQty;
 
 // Key: gameListId
@@ -54,7 +54,7 @@ contract AddGameInfo is ChainlinkClient{
         bytes32 overviewUrl;
         bytes32 assetLaunchDate;
         bytes32 logoUrl;
-        bytes currencyIntro;
+        string currencyIntro;
     }
 
     struct QuestionList{
@@ -99,13 +99,14 @@ contract AddGameInfo is ChainlinkClient{
     mapping (int256 => QuestionList) public questionList;
 
 
-    address GetCurrencyInfoInterfaceAddress = 0xa580D0eF1d8bDefdcD06059f3B81D305778ab617;
+
+    address GetCurrencyInfoInterfaceAddress = 0x59F08372ab30E64F61AF8594c1163379ACAD27C5;
     GetCurrencyInfoInterface getCurrencyInfoContract = GetCurrencyInfoInterface(GetCurrencyInfoInterfaceAddress);
 
-    address GetAnswerInterfaceAddress = 0x6f33ed84c014F72D23240b9Ed589959a8c226C76;
+    address GetAnswerInterfaceAddress = 0xbE56D8D1d1a529DD83F1188d3B0949A2828F45a5;
     GetAnswerInterface getAnswerContract = GetAnswerInterface(GetCurrencyInfoInterfaceAddress);
 
-    address GetVRFInterfaceAddress = 0x40C7b80E812a3683d651DB8b38278A256f51362D;
+    address GetVRFInterfaceAddress = 0xa7986Fb6438db392b60aaA6Fba3b1B7c5514dD10;
     GetVRFInterface getVRFContract = GetVRFInterface(GetVRFInterfaceAddress);
 
     constructor() public {
@@ -114,13 +115,25 @@ contract AddGameInfo is ChainlinkClient{
         questionList[1].questionName = "PRICE";
         questionList[1].questionDescription = "Guess the second digit after the decimal point";
 
-        questionList[2].questionName = "VOLUME";
-        questionList[2].questionDescription = "Guess remainder of volume divided by 3";
+        questionList[6].questionName = "VOLUME";
+        questionList[6].questionDescription = "Guess remainder of volume divided by 3";
+
+        questionList[2].questionName = "PRICE";
+        questionList[2].questionDescription = "Guess the units";
+
+        questionList[3].questionName = "PRICE";
+        questionList[3].questionDescription = "Guess the tens";
+
+        questionList[4].questionName = "PRICE";
+        questionList[4].questionDescription = "Guess the hundreds";
+
+        questionList[5].questionName = "PRICE";
+        questionList[5].questionDescription = "Guess the first digit after the decimal point";
 
         propertyList[1] = "Crypto Currency";
 
         lifeLengthList[1].lifeLength = 1;
-        lifeLengthList[1].gameQuantity = 30;
+        lifeLengthList[1].gameQuantity = 10;
         lifeLengthList[1].title = "Daily";
 
 
@@ -133,18 +146,20 @@ contract AddGameInfo is ChainlinkClient{
         lifeLengthList[3].title = "Monthly";
 
         currencyQuantity = 10;
+
+
     }
 
 
 
-// (SKIP)  1
+// 1. Update currency list every monthly. currency list is volume of top 10.
     function makeCurrencyList() public{
         LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
         require(linkToken.transfer(GetCurrencyInfoInterfaceAddress, linkToken.balanceOf(address(this))), "Unable to transfer");
         getCurrencyInfoContract.addCurrency(currencyQuantity);
     }
 
-// 2
+// 2. Get currency information after execute the function of makeCurrencyList
     function getCurrencyList() public{
         for(int256 i=1;i<=currencyQuantity;i++){
             currencyList[i].name = getCurrencyInfoContract.getCurrencyName(i);
@@ -152,20 +167,18 @@ contract AddGameInfo is ChainlinkClient{
             currencyList[i].overviewUrl = getCurrencyInfoContract.getCurrencyOverviewUrl(i);
             currencyList[i].assetLaunchDate = getCurrencyInfoContract.getCurrencyAssetLaunchDate(i);
             currencyList[i].logoUrl = getCurrencyInfoContract.getCurrencyLogoUrl(i);
-            currencyList[i].currencyIntro = getCurrencyInfoContract.getCurrencyIntro(i);
         }
     }
 
 
-    function getRandom() public returns(uint256){
+    function getRandom() public{
         LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
         require(linkToken.transfer(GetVRFInterfaceAddress, linkToken.balanceOf(address(this))), "Unable to transfer");
         reqID_VRF=getVRFContract.getRandomNumber();
-        randomNum=getVRFContract.getVRF();
-        return randomNum;
+        randomNum=getVRFContract.getVRF() / 10000000;
     }
 
-// 3.5
+//
     function makeOptions(int256 _questionId, int256 _gameId) public{
         if(_questionId == 1){
             optionsList[_gameId][1].optionsContet = 1;
@@ -179,20 +192,20 @@ contract AddGameInfo is ChainlinkClient{
             optionsList[_gameId][9].optionsContet = 9;
             optionsList[_gameId][10].optionsContet = 0;
         }else if(_questionId == 2){
-            optionsList[_gameId][1].optionsContet =0;
-            optionsList[_gameId][2].optionsContet =1;
-            optionsList[_gameId][3].optionsContet =2;
+            optionsList[_gameId][1].optionsContet = 0;
+            optionsList[_gameId][2].optionsContet = 1;
+            optionsList[_gameId][3].optionsContet = 2;
         }
    }
 
-// 3
-    function makeDailyGame() public{
+// 3. make Game information list
+    function makeGameInfo() public{
       totalGameQty=1;
         for(int256 i=1;i<=3;i++){  // i=1 daily,i=2 weekly,i=3 monthly
             for(int256 gameId=1;gameId<=lifeLengthList[i].gameQuantity;gameId++){
-                gameList[totalGameQty].questionId = int256(randomNum) % 2 + 1;
-                makeOptions(int256(randomNum) % 2 + 1, totalGameQty);
-                gameList[totalGameQty].currencyId = int256(randomNum) % currencyQuantity + 1;
+                gameList[totalGameQty].questionId = int256((int256(randomNum)*gameId) % 6 + 1);
+                makeOptions((int256(randomNum)*gameId) % 2 + 1, totalGameQty);
+                gameList[totalGameQty].currencyId = (int256(randomNum)*gameId) % currencyQuantity + 1;
                 gameList[totalGameQty].revealTime = 0;
                 gameList[totalGameQty].lifeLengthId = i;
                 gameList[totalGameQty].property = propertyList[1];
@@ -200,6 +213,14 @@ contract AddGameInfo is ChainlinkClient{
                 gameList[totalGameQty].isClose = false;
                 totalGameQty++;
             }
+        }
+    }
+
+// 4.
+    function gameStatus() public{
+        for(int256 i=1;i<6;i++){
+            gameList[i].isActivity = true;
+            gameList[i].isClose = true;
         }
     }
 
@@ -219,7 +240,7 @@ contract AddGameInfo is ChainlinkClient{
             int256 numOfParticipants;
         }
     */
-
+// 5. return game information to fontend
     function returnGameInfo(int256 _gameId) public view returns(bytes32){
         GameInfo[4] memory gameInfo;
         for(int256 i=1;i<=3;i++){  // i=1 daily,i=2 weekly,i=3 monthly
@@ -228,7 +249,7 @@ contract AddGameInfo is ChainlinkClient{
                     gameInfo[uint(i)].gameId = gameId;
                     gameInfo[uint(i)].gameTitle = currencyList[gameList[gameId].currencyId].name;
                     gameInfo[uint(i)].gameQuestion = questionList[gameList[gameId].questionId].questionDescription;
-                    gameInfo[uint(i)].gameDescription = currencyList[gameList[gameId].currencyId].currencyIntro;
+                    //gameInfo[uint(i)].gameDescription = currencyList[gameList[gameId].currencyId].currencyIntro;
                     gameInfo[uint(i)].gameParticipateStartTime = now;
                     gameInfo[uint(i)].gameWindow = lifeLengthList[i].title;
                     gameInfo[uint(i)].gameProperty = gameList[gameId].property;
@@ -256,7 +277,6 @@ contract AddGameInfo is ChainlinkClient{
         string memory url_sub;
         bytes32 reqID;
         string memory currencyName=bytes32ToString(currencyList[gameList[_gameId].currencyId].name);
-
 
         url_main="https://min-api.cryptocompare.com/data/pricemultifull?fsyms=";
         url_sub="&tsyms=USD";
