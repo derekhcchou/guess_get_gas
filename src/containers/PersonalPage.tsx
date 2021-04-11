@@ -12,17 +12,13 @@ import {
 import { styles } from "../helpers/styles";
 import { numberWithCommas } from "../helpers/utility";
 import { isNumber } from "lodash";
-import {
-  reloadBalance,
-  withdrawBalance,
-  stakeTokens,
-  unstakeTokens,
-} from "../helpers/accountHelper";
+import { reloadBalance, withdrawBalance } from "../helpers/accountHelper";
 import { setSessionObject } from "../context/sessionStore";
+import { IGameInfoType, IUserGame } from "../helpers/types";
 
 const PersonalPage: React.FC<{}> = ({}) => {
   const context = useContext(AppStateContext);
-  const { userData } = context.initAppState;
+  const { userData, gameInfo } = context.initAppState;
   const [isLoadingTransection, setIsLoadingTransection] = useState<boolean>(
     false
   );
@@ -98,6 +94,22 @@ const PersonalPage: React.FC<{}> = ({}) => {
     }
   }, [showWithdrawModal]);
 
+  const getParticipatingGame = (game: IUserGame) => {
+    const matchedGame: IGameInfoType | undefined = gameInfo.find(
+      (g: IGameInfoType) => g.gameId === game.gameId
+    );
+    if (!!matchedGame) {
+      return (
+        <ol>
+          {matchedGame.gameQuestion}:{" "}
+          {matchedGame.gameAnsOptions[game.selectedAnswerId]} with $
+          {game.betPrice}
+        </ol>
+      );
+    }
+    return <></>;
+  };
+
   return (
     <>
       <div>
@@ -106,14 +118,14 @@ const PersonalPage: React.FC<{}> = ({}) => {
           <div className="personal-balance-section">
             <Container>
               <Row className="justify-content-md-center">
-                <Col xs={5}>
+                <Col xs={6}>
                   <Card.Title>
                     <label className="personal-balance-title">
                       Account Balance:{" "}
                     </label>
                   </Card.Title>
                   <Card.Subtitle>
-                    <label style={styles.balance}>
+                    <label className="personal-balance-number">
                       {numberWithCommas(userData.balance)} {userData.tokenName}{" "}
                     </label>
                   </Card.Subtitle>
@@ -123,6 +135,7 @@ const PersonalPage: React.FC<{}> = ({}) => {
                       onClick={() => {
                         setShowReloadModal(true);
                       }}
+                      className="personal-link"
                     >
                       Reload Now!
                     </a>
@@ -132,6 +145,7 @@ const PersonalPage: React.FC<{}> = ({}) => {
                       onClick={() => {
                         setShowWithdrawModal(true);
                       }}
+                      className="personal-link"
                     >
                       Withdraw
                     </a>
@@ -145,7 +159,9 @@ const PersonalPage: React.FC<{}> = ({}) => {
 
         {/* Connected Wallet */}
         <Card style={styles.introCardStyle}>
-          <Card.Title>Connected Wallet</Card.Title>
+          <Card.Title>
+            <label className="person-section-title">Connected Wallet</label>
+          </Card.Title>
           <Card.Subtitle> </Card.Subtitle>
           <Card.Body>
             Address: {userData.address} <br />
@@ -159,42 +175,57 @@ const PersonalPage: React.FC<{}> = ({}) => {
 
         {/* NFT Section */}
         <Card style={styles.introCardStyle}>
-          <Card.Title>NFT Section</Card.Title>
+          <Card.Title>
+            <label className="person-section-title">NFT Collection</label>
+          </Card.Title>
           <Card.Subtitle> </Card.Subtitle>
           <Card.Body>
-            NFT <br />
-            NFT <br />
-            NFT <br />
-            NFT <br />
-            NFT <br />
+            <Container>
+              <Row>
+                <Col xs={4}>
+                  <img
+                    src="./src/tamagochan-btc.png"
+                    alt="G,GG BTC NFT"
+                    className="personal-nft-img"
+                  />
+                </Col>
+                <Col xs={4}>
+                  <img
+                    src="./src//tamagochan-eth.png"
+                    alt="G,GG ETH NFT"
+                    className="personal-nft-img"
+                  />
+                </Col>
+                <Col xs={4}>
+                  <img
+                    src="./src//tamagochan-lte.png"
+                    alt="G,GG LTE NFT"
+                    className="personal-nft-img"
+                  />
+                </Col>
+              </Row>
+            </Container>
           </Card.Body>
         </Card>
 
         {/* Participating Game */}
-        <Card style={styles.introCardStyle}>
-          <Card.Title>Participating Game </Card.Title>
-          <Card.Subtitle> Participating Game </Card.Subtitle>
+        {/* <Card style={styles.introCardStyle}>
+          <Card.Title>
+            {" "}
+            <label className="person-section-title">Participating Game </label>
+          </Card.Title>
           <Card.Body>
-            Game 1 <br />
-            Game 2 <br />
-            Game 3 <br />
-            Game 4 <br />
-            Game 5 <br />
+            {userData.gameList.length === 0 ? (
+              <>Currently Not Participating In Any Game</>
+            ) : (
+              <>
+                {userData.gameList.map((game: IUserGame) => {
+                  return getParticipatingGame(game);
+                })}
+              </>
+            )}
           </Card.Body>
-        </Card>
-
-        {/* Participation History */}
-        <Card style={styles.introCardStyle}>
-          <Card.Title>Participation History </Card.Title>
-          <Card.Subtitle> Participation History </Card.Subtitle>
-          <Card.Body>
-            Game 1 <br />
-            Game 2 <br />
-            Game 3 <br />
-            Game 4 <br />
-            Game 5 <br />
-          </Card.Body>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Reload Modal => should move it to a separate component */}

@@ -36,7 +36,8 @@ const GameLobbyCard: React.FC<Props> = ({ game }) => {
    */
   const isParticipating = userData.gameList.find(
     (userGame) =>
-      userGame.gameId === game.gameId && userGame.selectedAnswerId !== 0
+      Number(userGame.gameId) === Number(game.gameId) &&
+      userGame.selectedAnswerId !== 0
   );
 
   return (

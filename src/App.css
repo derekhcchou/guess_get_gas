@@ -225,7 +225,27 @@
   border-style: solid !important;
   border-color: #aaa !important;
   padding: 30px;
+  text-align: center !important;
 }
 .personal-balance-title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+.personal-balance-number {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.personal-link {
+  font-size: 1.25rem;
+  color: #aaa !important;
+}
+.person-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.personal-nft-img {
+  width: 300px;
+  height: 300px;
 }

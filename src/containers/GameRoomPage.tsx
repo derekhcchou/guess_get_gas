@@ -138,7 +138,7 @@ const GameRoomPage: React.FC = () => {
               {isParticipating && <>Your are participating in this game!</>}
               {!isParticipating && userData.balance === 0 && (
                 <>
-                  Your current account balance is $0 ETH. Please reload to
+                  Your current account balance is $0. Please reload to
                   participate!
                 </>
               )}
