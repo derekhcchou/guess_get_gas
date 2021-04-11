@@ -1,12 +1,8 @@
 # Guess, Get Gas
 A decentralized game powered by Chainlink and Ethereum.
 
-# Description
-
 Guess and Learn!
 Guess, Get Gas is a guessing game that introduces pieces of information on crypto currencies whilst participants can make guesses on crypto markets in a fun way! Make a correct guess to earn crypto currency or NFT in return. Guess, Get Gas thrives to promote the world of blockchain. :sunglasses:
-
-# Inspiration
 
 The world is starting to realize blockchain world, and there are lots of people who haven't learned about it yet. We chose this topic as our starting point to design different kinds of prediction questions for users to guess, in the mean while learning about crypto currencies. 
 
@@ -14,12 +10,15 @@ The world is starting to realize blockchain world, and there are lots of people 
 
 Our smart contracts grabs apis via Chainlink oracles, generating different kinds of questions about crypto currencies, such as the second digit of ETH's price.
 For a daily game, you can enter the game for unlimited times if you stake a certain amount of crypto currency, and earn different kinds of NFTs when you win. For weekly/monthly games, you get to decide your entrance stake, and win a certain amount of prize in proportion to your entrance stake. The most fascinating game is the lifetime game, the guessing target will be an event that will hardly ever happen, but when it happens, you earn a massive prize, and the only secret of winning is patience.
- 
 
-# How I built it
+## Architecture diagram
+
+<img src="src/ggg-flowchart-2.png">
+
+# How we built it
 This application is built using truffle, nodejs, solidity, and chainlink, infura, Remix, web3, polygon.
 
-# Challenges I ran into
+# Challenges we ran into
 
 1. At first, price feed results of chainlink oracle only works on kovan, then we encountered that nodes on kovan is unstable, which leads to uncertain result.
 2. Hard to debug.
@@ -28,11 +27,11 @@ This application is built using truffle, nodejs, solidity, and chainlink, infura
 5. Trying to but often ran out of gas while deploying, might be because our program design weren't so Ethereum friendly.
 
 
-# Accomplishments that I'm proud of
+# Accomplishments that We are proud of
 
 Starting from newbies of Solidity and Blockchain development world, we are proud to say we learned how to write smart contracts, we tried our best to design UI, and learned a whole lot during this hackathon(great workshops!). Although there are still some parts to fill in, it is our great accomplisment to put together a Dapp and some smart contracts!
 
-# What I learned
+# What we learned
 
 We've learnt the basic flow of a smart contract, the usage of chainlink oracles, deployments and different testnets, how to mint a NFT, how to implement wallet connection...etc.
 
@@ -51,9 +50,6 @@ After a crypto version of GGG, we hope to integrate with open apis of other fiel
 
 ## Live Demo (Kovan network)
 
-## Architecture diagram
-
-<img src="src/ggg-flowchart-2.png">
 
 # Build & Run platform
 This repository includes:
