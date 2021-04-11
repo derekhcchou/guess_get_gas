@@ -46,6 +46,10 @@ interface GetVRFInterface {
     function getRandomNumber() external returns (bytes32 requestId);
 }
 
+interface GenerateBadgeInterface {
+    function issueNFT(string memory name, address userAddress) external;
+}
+
 contract AddGameInfo is ChainlinkClient {
     int256 public currencyQuantity;
     int256 public dailyGameQuantity;
