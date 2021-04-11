@@ -25,7 +25,7 @@ const NavBar: React.FC<Props> = ({
         <>
             <Navbar style={styles.header}>
                 <Navbar.Brand href="/" style={styles.headerLogoText}>
-                    <img src="tamagochan.png" style={styles.headerLogo}></img>Guess Get Gas
+                    <img src="tamagochan.png" style={styles.headerLogo}></img>Guess, Get Gas
                 </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">

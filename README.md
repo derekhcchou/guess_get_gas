@@ -1,4 +1,4 @@
-# Guess Get Gas
+# Guess, Get Gas
 A decentralized game powered by Chainlink and Ethereum.
 
 # Description
