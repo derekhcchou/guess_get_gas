@@ -108,43 +108,32 @@ const LandingPage: React.FC<Props> = ({ handleShow }) => {
       <Card style={styles.introCardStyle}>
         <Card.Title>How To Play?</Card.Title>
         <Card.Subtitle>
-          Do you want to be a 100% accurate psychi and win prizes? Here is how
-          to put on your instinct and win $$!{" "}
+          Join us to be crypto masters! Participate in our games to win rewards
+          and learn something!
         </Card.Subtitle>
         <Card.Body>
           <ul>
-            <li>How to play step 1</li>
-            <li>How to play step 2</li>
-            <li>How to play step 3</li>
-            <li>How to play step 4</li>
-          </ul>
-        </Card.Body>
-      </Card>
-
-      <Card style={styles.introCardStyle}>
-        <Card.Title>Security</Card.Title>
-        <Card.Subtitle>
-          How do we handle our Dapp security and keep your wallet save?{" "}
-        </Card.Subtitle>
-        <Card.Body>
-          <ul>
-            <li>Security 1</li>
-            <li>Security 2</li>
-            <li>Security 3</li>
-            <li>Security 4</li>
-          </ul>
-        </Card.Body>
-      </Card>
-
-      <Card style={styles.introCardStyle}>
-        <Card.Title>Other Stuff</Card.Title>
-        <Card.Subtitle>Other things about us </Card.Subtitle>
-        <Card.Body>
-          <ul>
-            <li>Other Stuff 1</li>
-            <li>Other Stuff 2</li>
-            <li>Other Stuff 3</li>
-            <li>Other Stuff 4</li>
+            <li>
+              Every day/week/month, our game room will have different kinds of
+              topics for you to join!
+            </li>
+            <li>Select an option, make your guess!</li>
+            <li>
+              Stake an amount of USDC to participate! Stake from platform
+              balance or your connected wallet.
+            </li>
+            <li>Your choice will be locked once you submitted.</li>
+            <li>
+              Winners get rewards according to formula (NFT or crypto currency)
+            </li>
+            <li>
+              Your stake will be returned to your platform balance if you didn’t
+              win.
+            </li>
+            <li>
+              Your returned stake will be returned to platform balance and can
+              be used for next game.
+            </li>
           </ul>
         </Card.Body>
       </Card>

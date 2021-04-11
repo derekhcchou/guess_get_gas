@@ -46,6 +46,10 @@ interface GetVRFInterface {
     function getRandomNumber() external returns (bytes32 requestId);
 }
 
+interface GenerateBadgeInterface {
+    function issueNFT(string calldata name, address userAddress) external;
+}
+
 contract AddGameInfo is ChainlinkClient {
     int256 public currencyQuantity;
     int256 public dailyGameQuantity;
@@ -65,6 +69,7 @@ contract AddGameInfo is ChainlinkClient {
         string property; // 1 items
         bool isActivity; //
         bool isClose; //
+        int256[] options;
     }
 
     struct CurrencyList {
@@ -105,26 +110,28 @@ contract AddGameInfo is ChainlinkClient {
         int256 numOfParticipants;
     }
 
-    mapping (int256 => CurrencyList) public currencyList; //key: currencyId
-    mapping (int256 => GameList) public gameList;  // key: gameListId
-    mapping(int256 => GameInfo) public gameInfoList;  // return to front-end
-    mapping (int256 => mapping (int256 => OptionsList)) public optionsList;  // key1: gameListId, key2: optionsListId
-    mapping (int256 => string) public propertyList;
-    mapping (int256 => LifeLengthList) public lifeLengthList;
-    mapping (int256 => QuestionList) public questionList;
+    mapping(int256 => CurrencyList) public currencyList; // key: currencyId
+    mapping(int256 => GameList) public gameList; // key: gameListId
+    mapping(int256 => GameInfo) public gameInfoList; // return to front-end
+    mapping(int256 => mapping(int256 => OptionsList)) public optionsList; // key1: gameListId, key2: optionsListId
+    mapping(int256 => string) public propertyList;
+    mapping(int256 => LifeLengthList) public lifeLengthList;
+    mapping(int256 => QuestionList) public questionList;
 
- /*
-  * Network: Polygon
-  */
+    /*
+    * Network: Polygon
+    */
     address GetCurrencyInfoInterfaceAddress = 0x59F08372ab30E64F61AF8594c1163379ACAD27C5;
     GetCurrencyInfoInterface getCurrencyInfoContract = GetCurrencyInfoInterface(GetCurrencyInfoInterfaceAddress);
 
     address GetAnswerInterfaceAddress = 0xbE56D8D1d1a529DD83F1188d3B0949A2828F45a5;
     GetAnswerInterface getAnswerContract = GetAnswerInterface(GetCurrencyInfoInterfaceAddress);
 
-// Make randomnumber
     address GetVRFInterfaceAddress = 0xa7986Fb6438db392b60aaA6Fba3b1B7c5514dD10;
     GetVRFInterface getVRFContract = GetVRFInterface(GetVRFInterfaceAddress);
+
+    address GenerateBadgeInterfaceAddress = 0x0404E505c13C659b444F3566777901C824C82566;
+    GenerateBadgeInterface generateBadgeContract = GenerateBadgeInterface(GenerateBadgeInterfaceAddress);
 
     constructor() public {
         setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
@@ -160,7 +167,7 @@ contract AddGameInfo is ChainlinkClient {
         lifeLengthList[1].title = "Daily";
 
         lifeLengthList[2].lifeLength = 7;
-        lifeLengthList[2].gameQuantity = 4;
+        lifeLengthList[2].gameQuantity = 2;
         lifeLengthList[2].title = "Weekly";
 
         lifeLengthList[3].lifeLength = 30;
@@ -208,9 +215,10 @@ contract AddGameInfo is ChainlinkClient {
         return int256(randomNum);
     }
 
-//
+// 3.5
     function makeOptions(int256 _questionId, int256 _gameId) public{
         if(_questionId == 1){
+            gameList[_gameId].options = [1,2,3,4,5,6,7,8,9,0];
             optionsList[_gameId][1].optionsContet = 1;
             optionsList[_gameId][2].optionsContet = 2;
             optionsList[_gameId][3].optionsContet = 3;
@@ -388,13 +396,52 @@ contract AddGameInfo is ChainlinkClient {
         //return getAnswerContract.getVolume();
     }
 
-    //
-    function addParticipant(
-        int256 _gameId,
-        address _userAddress,
-        int256 _optionId
-    ) public {
+    function processGameResult(int256 gameId) public {
+        int preciseAnswer = int(getPreciseAnswer(gameId));
+
+        for (uint k = 1; k <= gameList[gameId].options.length; k++) {
+            address[] memory users = optionsList[gameId][int(k)].userAddress;
+            if (gameList[gameId].options[uint(k)] == preciseAnswer) {
+                // daily games issue NFT as reward
+                if (gameList[gameId].lifeLengthId == 1) {
+                    for (uint i = 1; i <= users.length; i++) {
+                        generateBadgeContract.issueNFT(bytes32ToString(currencyList[gameList[gameId].currencyId].name), users[k]);
+                    }
+                } else {
+                    for (uint i = 1; i <= users.length; i++) {
+                        // issueCurrency(gameId, users[k], true, gameList[gameId].lifeLengthId);
+                    }
+                }
+            } else {
+                for (uint i = 1; i <= users.length; i++) {
+                    // issueCurrency(gameId, users[k], false, gameList[gameId].lifeLengthId);
+                }
+            }
+        }
+    }
+
+    function getPreciseAnswer(int256 gameId) public returns (uint) {
+        int256 _qid = gameList[gameId].questionId;
+        uint answer;
+        // uint volume = getAnswerContract.getVolume();
+        uint volume = 12342;
+
+        // PRICE uses decimal
+        
+        if (keccak256(abi.encodePacked(questionList[_qid].questionName)) == keccak256(abi.encodePacked("PRICE"))) {
+            answer = volume % 10;
+        } else {
+            answer = volume % 3;
+        }
+
+        return answer;
+    }
+
+
+//
+    function addParticipant(int256 _gameId, address _userAddress, int256 _optionId) public{
         optionsList[_gameId][_optionId].userAddress.push(_userAddress);
+        optionsList[_gameId][_optionId].userQuantity++;
     }
 
 
