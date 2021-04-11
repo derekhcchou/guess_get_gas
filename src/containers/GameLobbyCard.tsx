@@ -47,15 +47,16 @@ const GameLobbyCard: React.FC<Props> = ({ game }) => {
           <div className="lobby-intro-card-line">
             <Container>
               <Row>
-                <Col xs={9}>
+                <Col xs={6}>
                   <Card.Title>
                     <label className="lobby-gameroom-header">
                       {game.gameWindow.toUpperCase()}
                     </label>{" "}
                   </Card.Title>
                 </Col>
-                <Col className="lobby-ppl-balance" xs={3}>
-                  {countDownTimer(game)}
+                <Col className="lobby-ppl-balance" xs={6}>
+                  {numberWithCommas(game.numOfParticipants)} ppl/
+                  {priceFormatter(game.totalPrice)}
                 </Col>
               </Row>
             </Container>
@@ -71,17 +72,19 @@ const GameLobbyCard: React.FC<Props> = ({ game }) => {
             <Container>
               <Row>
                 <Col xs={12}>
-                  {game.gameDestribtion}
-                  <br />
-                  <br />
                 </Col>
               </Row>
               <Row>
                 <Col xs={8}>
-                  {numberWithCommas(game.numOfParticipants)} ppl/
-                  {priceFormatter(game.totalPrice)}
+                {!isAfter(
+                    Date.now(),
+                    moment(game.gameWindowStarTime).toDate()
+                  ) || game.gameWindow.toLowerCase() === "lifetime"
+                  ? `Game Ends Countdown: `
+                  : `Answer Reveal Countdown: `}
+                  {countDownTimer(game)}
                 </Col>
-                <Col xs={4}>
+                <Col xs={4} className="lobby-gameroom-btn-container">
                   <Button
                     className="lobby-gameroom-btn"
                     onClick={() => {
@@ -95,7 +98,7 @@ const GameLobbyCard: React.FC<Props> = ({ game }) => {
                           moment(game.gameWindowStarTime).toDate()
                         ) || game.gameWindow.toLowerCase() === "lifetime"
                       ? `Enter Game`
-                      : `Game Started, View Game`}
+                      : `View Game`}
                   </Button>
                 </Col>
               </Row>
