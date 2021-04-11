@@ -15,7 +15,7 @@ const GameLobbyPage: React.FC<Props> = ({
   const history = useHistory();
   const context = useContext(AppStateContext);
   const {gameInfo, userData} = context.initAppState;
-
+  if(!userData.address) history.push("/");
   return (
     <div>
         <Card style={styles.introCardStyle}>

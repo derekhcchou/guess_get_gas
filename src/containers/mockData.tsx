@@ -3,7 +3,7 @@ export const gameListMock: IGameInfoType[] = [
     {
         gameId:1,
         gameTitle: "LINK",
-        gameQuestion: "Price of LINK on 4/1",
+        gameQuestion: "Price of LINK on 4/11",
         gameDestribtion:"Chainlink is a blockchain-base middleware, acting as a bridge between cryptocurrency smart contracts and off-chain resources like data feeds, various web APIs, and traditional bank account payments. This way, Chainlink allows Smart Contracts to communicate with external resources on their own. LINK is an ERC20 token based on the Ethereum Blockchain. It is used to pay Chainlink Node operators for the retrieval of data from off-chain data feeds, formatting of data into blockchain readable formats, off-chain computation, and uptime guarantees they provide as operators.",
         gameAnsOptions:[
             {
@@ -15,9 +15,9 @@ export const gameListMock: IGameInfoType[] = [
             },{
                 answerId: 1,
                 answerText:"$50"}],
-        gameWindowStarTime: "2021-04-01 00:00:00",
-        gameWindowEndTime: "2021-04-02 00:00:00",
-        gameParticipateStartTime: "2021-03-26 00:00:00",
+        gameWindowStarTime:  "2021-04-11 00:00:00",
+        gameWindowEndTime:  "2021-04-12 00:00:00",
+        gameParticipateStartTime:  "2021-04-02 00:00:00",
         // gameParticipateEndTime: Date, ** this equals to gameWindowStarTime
         gameWindow: "daily",
         gameProperty: "LINK",
@@ -42,7 +42,7 @@ export const gameListMock: IGameInfoType[] = [
                 answerText:"1.3"}],
         gameWindowStarTime: "2021-04-05 00:00:00", 
         gameWindowEndTime: "2021-04-12 00:00:00", // AsnwerRevealTime
-        gameParticipateStartTime: "2021-03-26 00:00:00", // 
+        gameParticipateStartTime: "2021-04-01 00:00:00", // 
         // gameParticipateEndTime: Date, ** this equals to gameWindowStarTime
         gameWindow: "weekly",
         gameProperty: "ETH",
@@ -65,8 +65,8 @@ export const gameListMock: IGameInfoType[] = [
             },{
                 answerId: 1,
                 answerText:"1.3"}],
-        gameWindowStarTime: "2021-04-01 00:00:00",
-        gameWindowEndTime: "2021-05-1 00:00:00",
+        gameWindowStarTime:"2021-04-01 00:00:00",
+        gameWindowEndTime: "2021-05-01 00:00:00",
         gameParticipateStartTime: "2021-03-26 00:00:00",
         // gameParticipateEndTime: Date, ** this equals to gameWindowStarTime
         gameWindow: "monthly",
@@ -90,9 +90,9 @@ export const gameListMock: IGameInfoType[] = [
             },{
                 answerId: 1,
                 answerText:"$50"}],
-        gameWindowStarTime: "2021-03-26 00:00:00",
-        gameWindowEndTime: "2021-04-02 00:00:00",
-        gameParticipateStartTime: "2021-03-26 00:00:00",
+        gameWindowStarTime: "2021-04-11 00:00:00",
+        gameWindowEndTime: "2021-04-18 00:00:00",
+        gameParticipateStartTime:"2021-03-26 00:00:00",
         // gameParticipateEndTime: Date, ** this equals to gameWindowStarTime
         gameWindow: "daily",
         gameProperty: "MATIC",
@@ -106,8 +106,6 @@ export const gameListMock: IGameInfoType[] = [
         gameQuestion: "USDC Disappears",
         gameDestribtion:"USD Coin (USDC) is a fully collateralized US Dollar stable coin. It is built on the open source fiat stable coin framework developed by CENTRE, and Circle is the first of several forthcoming issuers of USDC. USDC is designed to minimize price volatility and it does so by ensuring that every unit of USDC is only created when a corresponding US Dollar is deposited into a reserve bank account. Its major application at this point is as a mechanism for trading and hedging in global crypto capital markets. However, USDC is being adopted for use cases such as lending, payments, investments, and further applications within financial contracts such as derivatives contracts, insurance contracts, and security tokens.",
         gameAnsOptions:[],
-        gameWindowStarTime: "",
-        gameWindowEndTime: "",
         gameParticipateStartTime: "2021-03-26 00:00:00",
         // gameParticipateEndTime: Date, ** this equals to gameWindowStarTime
         gameWindow: "lifetime",

@@ -58,9 +58,11 @@
 /*  gameRoom */
 .optionDisabled {
   color: gray;
+  font-size: 1.25rem;
 }
 .optionEnabled {
-  color: black;
+  color: #aaa;
+  font-size: 1.25rem;
 }
 
 .navbar-light .navbar-text a {
@@ -98,12 +100,12 @@
   font-size: 2.5rem !important;
   color: #ddd !important;
   background-color: #ea6717 !important;
-  border-style: none;
+  border-style: none !important;
 }
 
 .landing-gameroom-btn:hover {
   background-color: #d0560c !important;
-  border-style: none;
+  border-style: none !important;
 }
 
 /* NavBar */
@@ -142,6 +144,13 @@
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
+.lobby-ppl-balance {
+  font-size: 1.5rem;
+  align-self: flex-end;
+  margin-bottom: 1.5rem;
+  position: absolute !important;
+  right: 0 !important;
+}
 
 .lobby-gameroom-btn {
   margin: 5px !important;
@@ -164,7 +173,6 @@
 }
 
 /* Game Room */
-
 .gameroom-btn {
   margin: 5px !important;
   padding-left: 30px !important;
@@ -177,7 +185,36 @@
   border-style: none !important;
 }
 
-.lgameroom-btn:hover {
+.gameroom-btn:hover {
   background-color: #d0560c !important;
   border-style: none !important;
+}
+
+.gameroom-question-title {
+  font-size: 3rem;
+}
+
+.gameroom-section-title {
+  font-size: 2rem;
+}
+
+.gameroom-rule-bulletpoint {
+  padding-inline-start: 0px !important;
+}
+
+.gameroom-option-section {
+  font-size: 1.5rem;
+  padding: 15px;
+}
+
+.gameroom-answer-section {
+  border-radius: 10px;
+  border-style: solid !important;
+  border-color: #aaa !important;
+  padding: 15px;
+}
+
+.gameroom-answer-section-title {
+  font-size: 1.75rem;
+  border-bottom: 3px solid #aaa;
 }

@@ -6,7 +6,6 @@ import {styles} from "../helpers/styles";
 import {numberWithCommas} from "../helpers/utility";
 import {isNumber} from "lodash";
 import { reloadBalance, withdrawBalance,stakeTokens, unstakeTokens } from '../helpers/accountHelper';
-import { getGameInfoList } from '../helpers/gameHelper';
 import { setSessionObject } from '../context/sessionStore';
 
 const PersonalPage: React.FC<{}>=({})=>{

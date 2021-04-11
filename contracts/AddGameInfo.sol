@@ -129,26 +129,29 @@ contract AddGameInfo is ChainlinkClient {
     constructor() public {
         setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
 
-        questionList[1].questionName = "PRICE";
+        questionList[1].questionName = "VOLUME";
         questionList[1]
-            .questionDescription = "Guess the second digit after the decimal point";
+            .questionDescription = "Guess the first digit before the decimal point (unit digit)for the future price";
 
-        questionList[2].questionName = "PRICE";
-        questionList[2].questionDescription = "Guess the units";
+        questionList[2].questionName = "VOLUME";
+        questionList[2]
+            .questionDescription = "Guess the hundreds digit (or hundredths if below $10)  of the totol volumne";
 
-        questionList[3].questionName = "PRICE";
-        questionList[3].questionDescription = "Guess the tens";
+        questionList[3].questionName = "VOLUME";
+        questionList[3]
+            .questionDescription = "Guess the tens digit (or tenths if below $5) of the future price";
 
         questionList[4].questionName = "PRICE";
-        questionList[4].questionDescription = "Guess the hundreds";
+        questionList[4]
+            .questionDescription = "Guess the hundreds digit (or hundredths if below $10)  of the future price";
 
         questionList[5].questionName = "PRICE";
         questionList[5]
-            .questionDescription = "Guess the first digit after the decimal point";
+            .questionDescription = "Guess the first digit before the decimal point (unit digit)for the future price";
 
-        questionList[6].questionName = "VOLUME";
+        questionList[6].questionName = "PRICE";
         questionList[6]
-            .questionDescription = "Guess remainder of volume divided by 3";
+            .questionDescription = "Guess the tens digit (or tenths if below $5) of the future price";
 
         propertyList[1] = "Crypto Currency";
 
