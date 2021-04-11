@@ -31,14 +31,7 @@ This application is built using truffle, nodejs, solidity, and chainlink, infura
    </a>
 </p>
 
-## Live Demo (Kovan network)
-
-
-## Build & Run platform
-This repository includes:
-
-
-## Install dependencies
+## How to install
 
 ```sh
 # install packages. 
@@ -46,7 +39,16 @@ npm install
 
 # compile contracts
 truffle compile
+
+# deploy on to Mumbai testnet
+truffle migrate --reset --network matic
+
+# start local server
+npm run start
 ```
+
+Once the application is running it can be accessed by local URL http://localhost:3000/
+
 
 ## Challenges we ran into
 
@@ -57,7 +59,7 @@ truffle compile
 5. Trying to but often ran out of gas while deploying, might be because our program design weren't so Ethereum friendly.
 
 
-## Accomplishments that We are proud of
+## Accomplishments that we are proud of
 
 Starting from newbies of Solidity and Blockchain development world, we are proud to say we learned how to write smart contracts, we tried our best to design UI, and learned a whole lot during this hackathon(great workshops!). Although there are still some parts to fill in, it is our great accomplisment to put together a Dapp and some smart contracts!
 
