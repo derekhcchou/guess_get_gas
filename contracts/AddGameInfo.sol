@@ -47,7 +47,7 @@ interface GetVRFInterface {
 }
 
 interface GenerateBadgeInterface {
-    function issueNFT(string memory name, address userAddress) external;
+    function issueNFT(string calldata name, address userAddress) external;
 }
 
 contract AddGameInfo is ChainlinkClient {
