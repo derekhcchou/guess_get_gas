@@ -37,6 +37,8 @@ module.exports = {
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,
+      // from: "0x780Fac6EdF7D47f7b85778d57448FE69E0B24A68",
+      // gas: 300000000,
       skipDryRun: true
     }
   },
