@@ -34,7 +34,7 @@ module.exports = async function(deployer, network, accounts) {
   // }
 
   // Initialization for the game
-    await tokenFarm.getRandom();
+    // await tokenFarm.getRandom();
     await tokenFarm.getCurrencyList();
     await tokenFarm.makeDailyGame();
     await tokenFarm.activeGameStatus();

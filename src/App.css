@@ -42,6 +42,10 @@
   background-color: #daded4 !important;
 }
 
+.radio-button {
+  margin-right: 5px;
+}
+
 /*  gameRoom */
 .optionDisabled {
   color: gray;
