@@ -1,12 +1,11 @@
-// Address: 0xa580D0eF1d8bDefdcD06059f3B81D305778ab617
 // This example code is designed to quickly deploy an example contract using Remix.
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.6.0;
 
-import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
+import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-contracts/src/v0.6/ChainlinkClient.sol";
 
-contract GetCurrencyList is ChainlinkClient {
+contract getCurrencyList is ChainlinkClient {
 
     struct CurrencyList{
          bytes32 name;
@@ -14,7 +13,7 @@ contract GetCurrencyList is ChainlinkClient {
          bytes32 overviewUrl;
          bytes32 assetLaunchDate;
          bytes32 logoUrl;
-         bytes currencyIntro;
+         //bytes currencyIntro;
     }
 
     mapping (int256 => CurrencyList) public currencyList;
@@ -29,14 +28,17 @@ contract GetCurrencyList is ChainlinkClient {
 
 
 
-    /**
-     * Network: Rinkeby
+    /*
+     * Network: Polygon
+     * JobsId(Get -> bytes32) - 92bc82fdc9824a71a2721cb5f00b8e35
+     * Node - 0xb33D8A4e62236eA91F3a8fD7ab15A95B9B7eEc7D
+     * ChainlinkToken - 0x326C977E6efc84E512bB9C30f76E30c160eD06FB
      * Fee: 0.1 LINK
      */
     constructor() public {
-        setPublicChainlinkToken();
-        oracle = 0x7AFe1118Ea78C1eae84ca8feE5C65Bc76CcF879e;
-        jobId = "c8084988f0b54520ba17945c4a2ab7bc";
+        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
+        oracle = 0xb33D8A4e62236eA91F3a8fD7ab15A95B9B7eEc7D;
+        jobId = "92bc82fdc9824a71a2721cb5f00b8e35";
         fee = 0.1 * 10 ** 18; // 0.1 LINK
 
         infoList[1]="Name";
@@ -152,9 +154,11 @@ contract GetCurrencyList is ChainlinkClient {
     function getCurrencyLogoUrl(int256 _id) public view returns(bytes32){
         return currencyList[_id].logoUrl;
     }
+    /*
     function getCurrencyIntro(int256 _id) public view returns(bytes memory){
         return currencyList[_id].currencyIntro;
     }
+    */
 
     /**
      * Create a Chainlink request to retrieve API response, find the target
@@ -169,7 +173,7 @@ contract GetCurrencyList is ChainlinkClient {
         string[] memory path = new string[](4);
         path[0] = "Data";
         path[1] = _id;
-        path[2] = "CurrencyInfo";
+        path[2] = "CoinInfo";
         path[3] = _infoData;
         request.addStringArray("path", path);
 
@@ -184,7 +188,7 @@ contract GetCurrencyList is ChainlinkClient {
         string[] memory path = new string[](4);
         path[0] = "Data";
         path[1] = _id;
-        path[2] = "CurrencyInfo";
+        path[2] = "CoinInfo";
         path[3] = _infoData;
         request.addStringArray("path", path);
 
@@ -199,7 +203,7 @@ contract GetCurrencyList is ChainlinkClient {
         string[] memory path = new string[](4);
         path[0] = "Data";
         path[1] = _id;
-        path[2] = "CurrencyInfo";
+        path[2] = "CoinInfo";
         path[3] = _infoData;
         request.addStringArray("path", path);
 
@@ -214,7 +218,7 @@ contract GetCurrencyList is ChainlinkClient {
         string[] memory path = new string[](4);
         path[0] = "Data";
         path[1] = _id;
-        path[2] = "CurrencyInfo";
+        path[2] = "CoinInfo";
         path[3] = _infoData;
         request.addStringArray("path", path);
 
@@ -229,7 +233,7 @@ contract GetCurrencyList is ChainlinkClient {
         string[] memory path = new string[](4);
         path[0] = "Data";
         path[1] = _id;
-        path[2] = "CurrencyInfo";
+        path[2] = "CoinInfo";
         path[3] = _infoData;
         request.addStringArray("path", path);
 

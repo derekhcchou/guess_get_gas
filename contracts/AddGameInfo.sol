@@ -53,8 +53,9 @@ contract AddGameInfo is ChainlinkClient {
     int256 public monthlyGameQuantity;
     bytes32 public reqID_VRF;
     int256 public rand_b;
-    uint256 public randomNum;
-
+    uint public randomNum=now/10000000;
+    int256 public totalGameQty;
+    
     // Key: gameListId
     struct GameList {
         int256 questionId; // 2 items
@@ -72,12 +73,12 @@ contract AddGameInfo is ChainlinkClient {
         bytes32 overviewUrl;
         bytes32 assetLaunchDate;
         bytes32 logoUrl;
-        bytes currencyIntro;
+        string currencyIntro;
     }
 
-    struct QuestionList {
-        string questionName; //path
-        string questionDescription; //question text
+    struct QuestionList{
+        string questionName;  //json path
+        string questionDescription;  //question text
     }
 
     struct OptionsList {
@@ -104,29 +105,29 @@ contract AddGameInfo is ChainlinkClient {
         int256 numOfParticipants;
     }
 
-    mapping(int256 => CurrencyList) public currencyList;
-    mapping(int256 => GameList) public gameList;
-    mapping(int256 => GameInfo) public gameInfoList;
-    mapping(int256 => mapping(int256 => OptionsList)) public optionsList; // key: gamiListId
-    mapping(int256 => string) public propertyList;
-    mapping(int256 => LifeLengthList) public lifeLengthList;
-    mapping(int256 => QuestionList) public questionList;
+    mapping (int256 => CurrencyList) public currencyList; //key: currencyId
+    mapping (int256 => GameList) public gameList;  // key: gameListId
+    mapping(int256 => GameInfo) public gameInfoList;  // return to front-end
+    mapping (int256 => mapping (int256 => OptionsList)) public optionsList;  // key1: gameListId, key2: optionsListId
+    mapping (int256 => string) public propertyList;
+    mapping (int256 => LifeLengthList) public lifeLengthList;
+    mapping (int256 => QuestionList) public questionList;
 
-    address GetCurrencyInfoInterfaceAddress =
-        0xa580D0eF1d8bDefdcD06059f3B81D305778ab617;
-    GetCurrencyInfoInterface getCurrencyInfoContract =
-        GetCurrencyInfoInterface(GetCurrencyInfoInterfaceAddress);
+ /*
+  * Network: Polygon
+  */
+    address GetCurrencyInfoInterfaceAddress = 0x59F08372ab30E64F61AF8594c1163379ACAD27C5;
+    GetCurrencyInfoInterface getCurrencyInfoContract = GetCurrencyInfoInterface(GetCurrencyInfoInterfaceAddress);
 
-    address GetAnswerInterfaceAddress =
-        0x6f33ed84c014F72D23240b9Ed589959a8c226C76;
-    GetAnswerInterface getAnswerContract =
-        GetAnswerInterface(GetCurrencyInfoInterfaceAddress);
+    address GetAnswerInterfaceAddress = 0xbE56D8D1d1a529DD83F1188d3B0949A2828F45a5;
+    GetAnswerInterface getAnswerContract = GetAnswerInterface(GetCurrencyInfoInterfaceAddress);
 
-    address GetVRFInterfaceAddress = 0x40C7b80E812a3683d651DB8b38278A256f51362D;
+// Make randomnumber
+    address GetVRFInterfaceAddress = 0xa7986Fb6438db392b60aaA6Fba3b1B7c5514dD10;
     GetVRFInterface getVRFContract = GetVRFInterface(GetVRFInterfaceAddress);
 
     constructor() public {
-        setPublicChainlinkToken();
+        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
 
         questionList[1].questionName = "PRICE";
         questionList[1]
@@ -164,38 +165,30 @@ contract AddGameInfo is ChainlinkClient {
         lifeLengthList[3].title = "Monthly";
 
         currencyQuantity = 10;
+
+
     }
 
-    // (SKIP)  1
-    function makeCurrencyList() public {
-        LinkTokenInterface linkToken =
-            LinkTokenInterface(chainlinkTokenAddress());
-        require(
-            linkToken.transfer(
-                GetCurrencyInfoInterfaceAddress,
-                linkToken.balanceOf(address(this))
-            ),
-            "Unable to transfer"
-        );
+
+
+// 1. Update currency list every monthly. currency list is volume of top 10.
+    function makeCurrencyList() public{
+        LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
+        require(linkToken.transfer(GetCurrencyInfoInterfaceAddress, linkToken.balanceOf(address(this))), "Unable to transfer");
         getCurrencyInfoContract.addCurrency(currencyQuantity);
     }
 
-    // 2
-    function getCurrencyList() public {
-        for (int256 i = 1; i <= currencyQuantity; i++) {
+// 2. Get currency information after execute the function of makeCurrencyList
+    function getCurrencyList() public{
+        for(int256 i=1;i<=currencyQuantity;i++){
             currencyList[i].name = getCurrencyInfoContract.getCurrencyName(i);
-            currencyList[i].fullName = getCurrencyInfoContract
-                .getCurrencyFullName(i);
-            currencyList[i].overviewUrl = getCurrencyInfoContract
-                .getCurrencyOverviewUrl(i);
-            currencyList[i].assetLaunchDate = getCurrencyInfoContract
-                .getCurrencyAssetLaunchDate(i);
-            currencyList[i].logoUrl = getCurrencyInfoContract
-                .getCurrencyLogoUrl(i);
-            currencyList[i].currencyIntro = getCurrencyInfoContract
-                .getCurrencyIntro(i);
+            currencyList[i].fullName = getCurrencyInfoContract.getCurrencyFullName(i);
+            currencyList[i].overviewUrl = getCurrencyInfoContract.getCurrencyOverviewUrl(i);
+            currencyList[i].assetLaunchDate = getCurrencyInfoContract.getCurrencyAssetLaunchDate(i);
+            currencyList[i].logoUrl = getCurrencyInfoContract.getCurrencyLogoUrl(i);
         }
     }
+
 
     function getRandom() public returns (int256) {
         LinkTokenInterface linkToken =
@@ -212,9 +205,9 @@ contract AddGameInfo is ChainlinkClient {
         return int256(randomNum);
     }
 
-    // 3.5
-    function makeOptions(int256 _questionId, int256 _gameId) public {
-        if (_questionId == 1) {
+//
+    function makeOptions(int256 _questionId, int256 _gameId) public{
+        if(_questionId == 1){
             optionsList[_gameId][1].optionsContet = 1;
             optionsList[_gameId][2].optionsContet = 2;
             optionsList[_gameId][3].optionsContet = 3;
@@ -230,9 +223,9 @@ contract AddGameInfo is ChainlinkClient {
             optionsList[_gameId][2].optionsContet = 1;
             optionsList[_gameId][3].optionsContet = 2;
         }
-    }
+   }
 
-    // 3
+// 3. make Game information list
     int256 currentTotalGameQty;
 
     function makeDailyGame() public {
@@ -296,12 +289,37 @@ contract AddGameInfo is ChainlinkClient {
         }
     }
 
-    // 4
-    function activeGameStatus() public {
-        for (int256 i = 1; i < 6; i++) {
-            gameList[i].isActivity = true;
-        }
+
+// 4.
+    function activeGameStatus() public{
+            gameList[1].isActivity = true;
+            gameList[1].isClose = true;
+
+            gameList[1+lifeLengthList[1].gameQuantity].isActivity = true;
+            gameList[1+lifeLengthList[1].gameQuantity].isClose = true;
+
+            gameList[1+lifeLengthList[1].gameQuantity+lifeLengthList[2].gameQuantity].isActivity = true;
+            gameList[1+lifeLengthList[1].gameQuantity+lifeLengthList[2].gameQuantity].isClose = true;
+
     }
+
+    /*
+        struct GameInfo{
+            int256 gameId;
+            bytes32 gameTitle;
+            string gameQuestion;
+            bytes gameDescription;
+            //int256[][] gameAnsOptions;
+            //uint gameWindowEndTime;
+            uint gameParticipateStartTime;
+            //uint gameParticipateEndTime;
+            string gameWindow;
+            string gameProperty;
+            bytes32 gameLogoLink;
+            int256 numOfParticipants;
+        }
+    */
+    
 
     int256[] availableGameIds;
 
@@ -339,6 +357,7 @@ contract AddGameInfo is ChainlinkClient {
         string memory url_main;
         string memory url_sub;
         bytes32 reqID;
+
         string memory currencyName =
             bytes32ToString(currencyList[gameList[_gameId].currencyId].name);
 
@@ -374,4 +393,19 @@ contract AddGameInfo is ChainlinkClient {
     ) public {
         optionsList[_gameId][_optionId].userAddress.push(_userAddress);
     }
+
+
+
+
+    /**
+     * Withdraw LINK from this contract
+     *
+     * DO NOT USE THIS IN PRODUCTION AS IT CAN BE CALLED BY ANY ADDRESS.
+     * THIS IS PURELY FOR EXAMPLE PURPOSES.
+     */
+    function withdrawLink() external {
+        LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
+        require(linkToken.transfer(msg.sender, linkToken.balanceOf(address(this))), "Unable to transfer");
+    }
+
 }
