@@ -128,6 +128,7 @@
 }
 .lobby-subtitle {
   font-size: 1.5rem;
+  margin: 20px;
 }
 .lobby-intro-card {
   padding: 15px;
@@ -136,9 +137,6 @@
   font-weight: 700;
   border-style: solid !important;
   border-color: #aaa !important;
-}
-.lobby-intro-card-line {
-  border-bottom: 1px solid #aaa;
 }
 .lobby-gameroom-header {
   font-size: 2.5rem;
@@ -150,6 +148,15 @@
   margin-bottom: 1.5rem;
   position: absolute !important;
   right: 0 !important;
+  text-align: right;
+  margin-right: 40px;
+}
+.lobby-gameroom-btn-container {
+  height: 50px;
+}
+
+.lobby-intro-card span {
+  font-size: 2rem;
 }
 
 .lobby-gameroom-btn {
