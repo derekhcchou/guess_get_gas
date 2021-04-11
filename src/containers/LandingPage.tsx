@@ -40,17 +40,11 @@ const LandingPage: React.FC<Props> = ({handleShow}) =>{
     return (
       <div className="landing">
         <Card style={styles.introCardStyle}>
-          <Card.Title>IT"S YOUR TERM! Become a Crypto Expert!</Card.Title>
+          <Card.Title>IT'S YOUR TURN! Become a Crypto Expert!</Card.Title>
             <Card.Subtitle>
               Crypto world has been getting bigger for the past 10 years and utilized in many industries. Are you ready to learn more about crypto world and cryptocurrency?
             </Card.Subtitle>
             <Card.Body>
-            <ul>
-              <li>How to play step 1</li>
-              <li>How to play step 2</li>
-              <li>How to play step 3</li>
-              <li>How to play step 4</li>
-              </ul>
             </Card.Body>
         </Card>
 
@@ -69,7 +63,7 @@ const LandingPage: React.FC<Props> = ({handleShow}) =>{
             })}
           </Row>
           <Row>
-            <Button variant="outline-dark" size="lg" block style={styles.gameRoomBtn} onClick={goToGameLobby}>Go to forecast lobby~</Button>
+            <Button variant="outline-dark" size="lg" block style={styles.gameRoomBtn} onClick={goToGameLobby}>ENTER</Button>
           </Row>
         </Card>
 
