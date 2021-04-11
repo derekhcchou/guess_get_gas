@@ -42,6 +42,11 @@
   background-color: #daded4 !important;
 }
 
+.rule-list {
+  background-color: #daded4 !important;
+  background: #daded4 !important;
+}
+
 /*  gameRoom */
 .optionDisabled {
   color: gray;
