@@ -106,22 +106,13 @@ contract AddGameInfo is ChainlinkClient {
         int256 numOfParticipants;
     }
 
-    mapping(int256 => CurrencyList) public currencyList;
-    mapping(int256 => GameList) public gameList;
-    mapping(int256 => GameInfo) public gameInfoList;
-    mapping(int256 => mapping(int256 => OptionsList)) public optionsList; // key: gamiListId
+    mapping(int256 => CurrencyList) public currencyList; // key: currencyId
+    mapping(int256 => GameList) public gameList; // key: gameListId
+    mapping(int256 => GameInfo) public gameInfoList; // return to front-end
+    mapping(int256 => mapping(int256 => OptionsList)) public optionsList; // key1: gameListId, key2: optionsListId
     mapping(int256 => string) public propertyList;
     mapping(int256 => LifeLengthList) public lifeLengthList;
     mapping(int256 => QuestionList) public questionList;
-
-    /*
-    * Network: Rinkeby
-    */    
-    address GetCurrencyInfoInterfaceAddress =
-        0xa580D0eF1d8bDefdcD06059f3B81D305778ab617;
-    GetCurrencyInfoInterface getCurrencyInfoContract =
-        GetCurrencyInfoInterface(GetCurrencyInfoInterfaceAddress);
-
 
     /*
     * Network: Polygon
