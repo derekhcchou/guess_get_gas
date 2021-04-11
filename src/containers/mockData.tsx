@@ -15,7 +15,7 @@ export const gameListMock: IGameInfoType[] = [
     gameWindow: "daily",
     gameProperty: "LINK",
     gamePropertyLogoLink:
-      "https://www.cryptocompare.com/media/37746242/link.png",
+      "https://www.cryptocompare.com/media/37746152/trxjpg.png",
     numOfParticipants: 43,
     totalPrice: 2323,
   },
@@ -49,7 +49,7 @@ export const gameListMock: IGameInfoType[] = [
     gameWindow: "monthly",
     gameProperty: "FIL",
     gamePropertyLogoLink:
-      "https://www.cryptocompare.com/media/37746146/fil.png",
+      "https://www.cryptocompare.com/media/37746251/btc.png",
     numOfParticipants: 20,
     totalPrice: 234,
   },
