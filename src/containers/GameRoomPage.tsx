@@ -150,13 +150,13 @@ const GameRoomPage: React.FC = () => {
               </label>
               <Container>
                 <Row>
-                  <Col xs={7}>
+                  <Col xs={8}>
                     <div className="gameroom-story">
                       {selectedGame.gameDestribtion}
                     </div>
                   </Col>
                   <Col xs={1}></Col>
-                  <Col xs={4} className="my-auto">
+                  <Col xs={3} className="my-auto">
                     <div>
                       <img
                         src={selectedGame.gamePropertyLogoLink}
