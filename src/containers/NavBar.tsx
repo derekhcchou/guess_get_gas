@@ -24,19 +24,21 @@ const NavBar: React.FC<Props> = ({
     return (
         <>
             <Navbar style={styles.header}>
-                <Navbar.Brand href="/" style={styles.headerLogoText}>Crypto Guess</Navbar.Brand>
+                <Navbar.Brand href="/" style={styles.headerLogoText}>
+                    <img src="tamagochan.png" style={styles.headerLogo}></img>Guess, Get Gas
+                </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                     {/* Switch between "Connect Wallet" and  */}
                     {showGameLobbyLink && 
-                    <Navbar.Text style={styles.headerNavTextLight}><Link to="/gameLobby" >Back to Game Lobby</Link></Navbar.Text>
+                    <Navbar.Text><Link to="/gameLobby" className="navbar-user-text">Back to Game Lobby</Link></Navbar.Text>
                     }
                     <Navbar.Text >
                         {!hasSingedIn ? 
-                            <Button variant="outline-dark" onClick={handleShow}>Connect Wallet</Button>
+                            <Button variant="outline-dark" style={styles.loginBtn} onClick={handleShow}>Connect Wallet</Button>
                             :
                             <>
-                                <NavDropdown title={dropdownTitle} style={styles.headerNavText} id="basic-nav-dropdown">
+                                <NavDropdown title={dropdownTitle} className="navbar-user-text" id="basic-nav-dropdown">
                                     <NavDropdown.Item> <Link to="/gameLobby" >Game Lobby</Link></NavDropdown.Item>
                                     <NavDropdown.Item><Link to="/personalPage" > Account</Link></NavDropdown.Item>
                                     <NavDropdown.Item><Link to="/" > About Us</Link></NavDropdown.Item>

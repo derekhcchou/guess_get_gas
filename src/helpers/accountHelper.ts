@@ -4,7 +4,7 @@ import DappToken from "../abis/DappToken.json"
 import TokenFarm from "../abis/TokenFarm.json"
 import ERC20 from "../abis/ERC20.json"
 import {IGameInfoType, IUserDataType, IUserGame} from "./types"
-import { isNumber } from "lodash"
+import { isEmpty, isNumber } from "lodash"
 import { ITabUserOptions } from "@testing-library/user-event"
 
 const tokenAddress = "0xFab46E002BbF0b4509813474841E0716E6730136"; // FAU token address
@@ -159,7 +159,7 @@ export const getUserBalance = async (
 
 export const getAllUserGameList = async (tokenFarm: any, userAddress: string, gameInfo: IGameInfoType[]) =>{
   let userGameList: IUserGame[]=[];
-  if(tokenFarm.methods?. getUserGameInfo){
+  if(tokenFarm.methods?.getUserGameInfo){
     gameInfo.forEach(async (game)=>{
       const res = await tokenFarm.methods
         .getUserGameInfo(userAddress, game.gameId) //account
@@ -180,7 +180,7 @@ export const getUserGameInfo = async (
   userData: IUserDataType,
   gameId: number,
 )=> {
-  const tokenFarm = await getTokenFarm(userData);
+  const tokenFarm = await getTokenFarm(userData.networkId);
   const res = await tokenFarm.methods
     .getUserGameInfo(userData.address, gameId) //account
     .call()
@@ -196,7 +196,7 @@ export const getUserGameInfo = async (
  // "address": "0x00D1C8c81cf4D056D3Dd4E6E9FF6aDa24A5B2cd2",
  export const reloadBalance = async (userData: IUserDataType, amount:string) => {
     console.log("reloading balance...")
-    const tokenFarm = await getTokenFarm(userData);
+    const tokenFarm = await getTokenFarm(userData.networkId);
     if(tokenFarm){
       const tokenFarmMethods = tokenFarm.methods;
       const accounts = await window.ethereum.enable();
@@ -216,7 +216,7 @@ export const getUserGameInfo = async (
 
  export const withdrawBalance = async (userData: IUserDataType, amount:string) => {
     console.log("withdrawing balance...")
-    const tokenFarm = await getTokenFarm(userData);
+    const tokenFarm = await getTokenFarm(userData.networkId);
     if(tokenFarm){
       const tokenFarmMethods = tokenFarm.methods;
       const accounts = await window.ethereum.enable();
@@ -236,7 +236,7 @@ export const getUserGameInfo = async (
 
 export const joinNewGame = async (userData: IUserDataType, amount: string, gameId: number, answerId: number) =>{
   console.log("joinning new game...")
-  const tokenFarm = await getTokenFarm(userData);
+  const tokenFarm = await getTokenFarm(userData.networkId);
   if(tokenFarm){
     const tokenFarmMethods = tokenFarm.methods;
     const accounts = await window.ethereum.enable();
@@ -256,11 +256,11 @@ export const joinNewGame = async (userData: IUserDataType, amount: string, gameI
 
 
 
-const getTokenFarm = async (userData:IUserDataType)=>{
+export const getTokenFarm = async (networkId:Number)=>{
   //@ts-ignore
-  const tokenFarmData = TokenFarm.networks[userData.networkId];
+  const tokenFarmData = TokenFarm.networks[networkId];
   const web3 = window.web3;
-  let tokenFarm,stakingBalance, userStuff;
+  let tokenFarm;
   if (tokenFarmData) {
     tokenFarm = new web3.eth.Contract(
       TokenFarm.abi,

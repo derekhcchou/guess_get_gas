@@ -40,17 +40,11 @@ const LandingPage: React.FC<Props> = ({handleShow}) =>{
     return (
       <div className="landing">
         <Card style={styles.introCardStyle}>
-          <Card.Title>IT"S YOUR TERM! Become a Crypto Expert!</Card.Title>
+          <Card.Title><label className="landing-page-header">IT'S YOUR TURN! Become a Crypto Expert!</label></Card.Title>
             <Card.Subtitle>
               Crypto world has been getting bigger for the past 10 years and utilized in many industries. Are you ready to learn more about crypto world and cryptocurrency?
             </Card.Subtitle>
             <Card.Body>
-            <ul>
-              <li>How to play step 1</li>
-              <li>How to play step 2</li>
-              <li>How to play step 3</li>
-              <li>How to play step 4</li>
-              </ul>
             </Card.Body>
         </Card>
 
@@ -60,16 +54,18 @@ const LandingPage: React.FC<Props> = ({handleShow}) =>{
               return (
                 <Col>
                   <Card style={styles.gameRoomCardStyle}>
-                    <Card.Title>{game.gameTitle}</Card.Title>
-                    <Card.Subtitle>{game.gameQuestion}</Card.Subtitle>
-                    <Card.Body>{game.gameDestribtion.substring(0,gameDescriptionMax)}{game.gameDestribtion.length > gameDescriptionMax && `...`}</Card.Body>
+                    <div className="landing-gameroom-headerline">
+                      <Card.Title><label className="landing-gameroom-header">{game.gameTitle}</label></Card.Title>
+                      <Card.Subtitle><label className="landing-gameroom-subtitle">{game.gameQuestion}</label></Card.Subtitle>
+                    </div>
+                    <div className="landing-gameroom-body">{game.gameDestribtion.substring(0,gameDescriptionMax)}{game.gameDestribtion.length > gameDescriptionMax && `...`}</div>
                   </Card>
                 </Col>
               );
             })}
           </Row>
           <Row>
-            <Button variant="outline-dark" size="lg" block style={styles.gameRoomBtn} onClick={goToGameLobby}>Go to forecast lobby~</Button>
+            <Button className="landing-gameroom-btn" size="lg" block  onClick={goToGameLobby}>ENTER</Button>
           </Row>
         </Card>
 

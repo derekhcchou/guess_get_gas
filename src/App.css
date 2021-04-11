@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+.bigTitle {
+  font-size: 2rem;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -42,10 +46,138 @@
   background-color: #daded4 !important;
 }
 
+.rule-list {
+  background-color: #daded4 !important;
+  background: #daded4 !important;
+}
+
+.radio-button {
+  margin-right: 5px;
+}
+
 /*  gameRoom */
 .optionDisabled {
   color: gray;
 }
 .optionEnabled {
   color: black;
+}
+
+.navbar-light .navbar-text a {
+  color: #ddd;
+}
+
+/* Landing Page */
+.landing-page-header {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.landing-gameroom-header {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.landing-gameroom-subtitle {
+  font-size: 1rem;
+}
+
+.landing-gameroom-headerline {
+  border-bottom: 1px solid #aaa;
+}
+
+.landing-gameroom-body {
+  margin-top: 1rem;
+}
+
+.landing-gameroom-btn {
+  margin: 20px !important;
+  margin-top: 2rem !important;
+  border-radius: 30px !important;
+  font-weight: 700 !important;
+  font-size: 2.5rem !important;
+  color: #ddd !important;
+  background-color: #ea6717 !important;
+  border-style: none;
+}
+
+.landing-gameroom-btn:hover {
+  background-color: #d0560c !important;
+  border-style: none;
+}
+
+/* NavBar */
+.navbar-user-text {
+  color: #aaa !important;
+  font-size: 1.5rem;
+}
+.navbar-light .navbar-text a {
+  color: #aaa !important;
+}
+/* Footer */
+.footer-style {
+  margin-top: 10rem;
+  padding-bottom: 5rem;
+}
+
+/* Lobby Room */
+.lobby-title {
+  font-size: 3rem;
+}
+.lobby-subtitle {
+  font-size: 1.5rem;
+}
+.lobby-intro-card {
+  padding: 15px;
+  margin: 15px;
+  border-radius: 10px;
+  font-weight: 700;
+  border-style: solid !important;
+  border-color: #aaa !important;
+}
+.lobby-intro-card-line {
+  border-bottom: 1px solid #aaa;
+}
+.lobby-gameroom-header {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.lobby-gameroom-btn {
+  margin: 5px !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  color: #ddd !important;
+  background-color: #ea6717 !important;
+  border-style: none !important;
+  position: absolute;
+  bottom: 10;
+  right: 0;
+}
+
+.lobby-gameroom-btn:hover {
+  background-color: #d0560c !important;
+  border-style: none !important;
+}
+
+/* Game Room */
+
+.gameroom-btn {
+  margin: 5px !important;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  color: #ddd !important;
+  background-color: #ea6717 !important;
+  border-style: none !important;
+}
+
+.lgameroom-btn:hover {
+  background-color: #d0560c !important;
+  border-style: none !important;
 }

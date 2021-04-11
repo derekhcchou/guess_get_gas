@@ -6,9 +6,10 @@ import {Link, useHistory} from "react-router-dom"
 import {gameRuleMap} from "../helpers/contentMap";
 import {styles} from "../helpers/styles";
 import {IGameAnserType, IGameInfoType, IUserGame} from "../helpers/types";
-import {numberWithCommas, priceFormatter, countDownTimer} from "../helpers/utility";
+import {numberWithCommas, countDownTimer} from "../helpers/utility";
 import {isArray, isNumber} from "lodash";
 import { joinNewGame } from '../helpers/accountHelper';
+import { getGameroomRules } from '../helpers/rulesHelper';
 
 const GameRoomPage: React.FC = () =>{
     const context = useContext(AppStateContext);
@@ -110,7 +111,7 @@ const GameRoomPage: React.FC = () =>{
                 }
                 {!isParticipating && userData.balance === 0  && 
                     <Card style={styles.introCardStyle}>
-                        Your currently account balance is $0 ETH. Please reload to participate!
+                        Your current account balance is $0 ETH. Please reload to participate!
                     </Card>
                 }
                 {/* Top Section */}
@@ -120,16 +121,16 @@ const GameRoomPage: React.FC = () =>{
                     <Card.Body>
                         <Container>
                             <Row>
-                            <Col xs={7}>
+                            <Col xs={6}>
                                 {countDownTimer(selectedGame)}<br />
                                 Property: {selectedGame.gameProperty}<br />
                                 Current Participants: {numberWithCommas(selectedGame.numOfParticipants)} people<br />
-                                Total Price: {priceFormatter(selectedGame.totalPrice)}<br /><br />
+                                Total Price: {numberWithCommas(selectedGame.totalPrice)}<br /><br />
                                 <br /><br />
                             </Col>
-                            <Col xs={4}>
+                            <Col xs={6}>
                                 <h5>Rules of {selectedGame.gameWindow} Game </h5>
-                                {gameRuleMap[selectedGame.gameWindow]}
+                                {getGameroomRules(selectedGame.gameWindow)}
                                 <br /><br />
                             </Col>
                             </Row>
@@ -142,10 +143,11 @@ const GameRoomPage: React.FC = () =>{
                     <h5>Story of {selectedGame.gameProperty}:</h5>
                     <Container >
                         <Row >
-                            <Col xs={9} >
+                            <Col xs={7} >
                                 {selectedGame.gameDestribtion}<br />
                             </Col>
-                            <Col xs={3} className = "my-auto">
+                            <Col xs={1} ></Col>
+                            <Col xs={4} className="my-auto">
                             <div>
                                 <img src={selectedGame.gamePropertyLogoLink} 
                                     alt={`Logo of ${selectedGame.gameProperty}`} 
@@ -166,6 +168,7 @@ const GameRoomPage: React.FC = () =>{
                                     return (
                                         <label  className = {isOptionDisabled ? "optionDisabled":"optionEnabled"}>
                                             <input type="radio" 
+                                                className="radio-button"
                                                 name="options" 
                                                 value={ansOption.answerId}  
                                                 onClick={()=>{
@@ -184,13 +187,13 @@ const GameRoomPage: React.FC = () =>{
                                 variant="outline-dark" 
                                 onClick={handleGameSubmitValidation}  
                                 disabled={isOptionDisabled}
-                            >{isParticipating ? `You bet ${priceFormatter(Number(betValue))} 
+                            >{isParticipating ? `You bet ${numberWithCommas(Number(betValue))} 
                                 with answer "${selectedGame.gameAnsOptions.find(option=> option.answerId === selectedOption)?.answerText}"`:`Put down yout bet!`}</Button>
                             {warningMsg && <label>Warning: {warningMsg}</label>}
                        </>
                     :
                         // this should be for lifetime game >> just have a button to join?
-                       <Button variant="outline-dark"  onClick={()=>{}}>
+                       <Button className="gameroom-btn" onClick={()=>{}}>
                             Join!
                         </Button>
                     }
@@ -205,7 +208,7 @@ const GameRoomPage: React.FC = () =>{
         </Modal.Header>
         <Modal.Body style={styles.modalStyle}>
             <label>How much do you want to place for the bet? </label><br />
-            <label>Your current account balance is {priceFormatter(userData.balance)} ETH</label><br />
+            <label>Your current account balance is {numberWithCommas(userData.balance)} ETH</label><br />
             <input 
                 value={betValue} 
                 onChange={
