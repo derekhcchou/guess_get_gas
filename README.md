@@ -9,16 +9,19 @@ The world is starting to realize blockchain world, and there are lots of people 
 ## What it does
 
 Our smart contracts grabs apis via Chainlink oracles, generating different kinds of questions about crypto currencies, such as the second digit of ETH's price.
-For a daily game, you can enter the game for unlimited times if you stake a certain amount of crypto currency, and earn different kinds of NFTs when you win. For weekly/monthly games, you get to decide your entrance stake, and win a certain amount of prize in proportion to your entrance stake. The most fascinating game is the lifetime game, the guessing target will be an event that will hardly ever happen, but when it happens, you earn a massive prize, and the only secret of winning is patience.
 
-### Architecture diagram
+For a daily game, you can enter the game for unlimited times if you stake a certain amount of crypto currency, and earn different kinds of NFTs when you win.
 
-<img src="src/ggg-flowchart-2.png">
+For weekly/monthly games, you get to decide your entrance stake, and win a certain amount of prize in proportion to your entrance stake.
+
+The most fascinating game is the lifetime game, the guessing target will be an event that will hardly ever happen, but when it happens, you earn a massive prize, and the only secret of winning is patience.
 
 ## How we built it
 This application is built using truffle, nodejs, solidity, and chainlink, infura, Remix, web3, polygon.
 
+## Architecture diagram
 
+<img src="src/ggg-flowchart-2.png">
 
 ## Demo video
 
