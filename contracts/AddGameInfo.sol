@@ -132,8 +132,21 @@ contract AddGameInfo is ChainlinkClient {
         questionList[1]
             .questionDescription = "Guess the second digit after the decimal point";
 
-        questionList[2].questionName = "VOLUME";
-        questionList[2]
+        questionList[2].questionName = "PRICE";
+        questionList[2].questionDescription = "Guess the units";
+
+        questionList[3].questionName = "PRICE";
+        questionList[3].questionDescription = "Guess the tens";
+
+        questionList[4].questionName = "PRICE";
+        questionList[4].questionDescription = "Guess the hundreds";
+
+        questionList[5].questionName = "PRICE";
+        questionList[5]
+            .questionDescription = "Guess the first digit after the decimal point";
+
+        questionList[6].questionName = "VOLUME";
+        questionList[6]
             .questionDescription = "Guess remainder of volume divided by 3";
 
         propertyList[1] = "Crypto Currency";
@@ -184,7 +197,7 @@ contract AddGameInfo is ChainlinkClient {
         }
     }
 
-    function getRandom() public returns (uint256) {
+    function getRandom() public returns (int256) {
         LinkTokenInterface linkToken =
             LinkTokenInterface(chainlinkTokenAddress());
         require(
@@ -195,8 +208,8 @@ contract AddGameInfo is ChainlinkClient {
             "Unable to transfer"
         );
         reqID_VRF = getVRFContract.getRandomNumber();
-        randomNum = getVRFContract.getVRF();
-        return randomNum;
+        randomNum = getVRFContract.getVRF() / 10000000;
+        return int256(randomNum);
     }
 
     // 3.5
@@ -224,6 +237,8 @@ contract AddGameInfo is ChainlinkClient {
 
     function makeDailyGame() public {
         currentTotalGameQty = 1;
+        uint8 totalQuestion = 6;
+        randomNum = now / 10000000;
         for (int256 i = 1; i <= 3; i++) {
             // i=1 daily,i=2 weekly,i=3 monthly
             for (
@@ -232,12 +247,15 @@ contract AddGameInfo is ChainlinkClient {
                 gameId++
             ) {
                 // gameList for indexes
-                gameList[currentTotalGameQty].questionId =
-                    (int256(now) % 2) +
-                    1;
-                makeOptions((int256(now) % 2) + 1, currentTotalGameQty);
+                gameList[currentTotalGameQty].questionId = int256(
+                    ((int256(randomNum) * gameId) % totalQuestion) + 1
+                );
+                makeOptions(
+                    ((int256(randomNum) * gameId) % 2) + 1,
+                    currentTotalGameQty
+                );
                 gameList[currentTotalGameQty].currencyId =
-                    (int256(now) % currencyQuantity) +
+                    ((int256(randomNum) * gameId) % currencyQuantity) +
                     1;
                 gameList[currentTotalGameQty].revealTime = 0;
                 gameList[currentTotalGameQty].lifeLengthId = i;

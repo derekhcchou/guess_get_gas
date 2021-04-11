@@ -2,6 +2,7 @@ import { isValidElement } from "react";
 import {IGameInfoType, IUserDataType} from "./types";
 import {isValid, isBefore, isAfter, endOfDay} from "date-fns";
 import Countdown from 'react-countdown';
+import { currencyDescription } from "./contentMap";
 
 export const checkUserHasSingedIn = (userData:IUserDataType) => {
     return !!userData && userData.address !=="";
@@ -60,4 +61,10 @@ export const countDownTimer = (game: IGameInfoType) => {
 
   export const numberWithCommas = (value: number) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+export const getCurrecyBackupDesc = (currencyCd: string)=>{
+  const desc = currencyDescription.find((curr)=>{return curr.key===currencyCd});
+  return desc?.desc || "Story about this currecy is coming soon!"
 }

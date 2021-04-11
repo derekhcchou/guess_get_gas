@@ -252,14 +252,14 @@
     "absolutePath": "@chainlink/contracts/src/v0.6/interfaces/AggregatorV2V3Interface.sol",
     "exportedSymbols": {
       "AggregatorV2V3Interface": [
-        5540
+        5623
       ]
     },
-    "id": 5541,
+    "id": 5624,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 5533,
+        "id": 5616,
         "literals": [
           "solidity",
           ">=",
@@ -272,10 +272,10 @@
       {
         "absolutePath": "@chainlink/contracts/src/v0.6/interfaces/AggregatorInterface.sol",
         "file": "./AggregatorInterface.sol",
-        "id": 5534,
+        "id": 5617,
         "nodeType": "ImportDirective",
-        "scope": 5541,
-        "sourceUnit": 5532,
+        "scope": 5624,
+        "sourceUnit": 5615,
         "src": "58:35:16",
         "symbolAliases": [],
         "unitAlias": ""
@@ -283,10 +283,10 @@
       {
         "absolutePath": "@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol",
         "file": "./AggregatorV3Interface.sol",
-        "id": 5535,
+        "id": 5618,
         "nodeType": "ImportDirective",
-        "scope": 5541,
-        "sourceUnit": 5587,
+        "scope": 5624,
+        "sourceUnit": 5670,
         "src": "94:37:16",
         "symbolAliases": [],
         "unitAlias": ""
@@ -298,17 +298,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 5536,
+              "id": 5619,
               "name": "AggregatorInterface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5531,
+              "referencedDeclaration": 5614,
               "src": "170:19:16",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_AggregatorInterface_$5531",
+                "typeIdentifier": "t_contract$_AggregatorInterface_$5614",
                 "typeString": "contract AggregatorInterface"
               }
             },
-            "id": 5537,
+            "id": 5620,
             "nodeType": "InheritanceSpecifier",
             "src": "170:19:16"
           },
@@ -316,38 +316,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 5538,
+              "id": 5621,
               "name": "AggregatorV3Interface",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5586,
+              "referencedDeclaration": 5669,
               "src": "191:21:16",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_AggregatorV3Interface_$5586",
+                "typeIdentifier": "t_contract$_AggregatorV3Interface_$5669",
                 "typeString": "contract AggregatorV3Interface"
               }
             },
-            "id": 5539,
+            "id": 5622,
             "nodeType": "InheritanceSpecifier",
             "src": "191:21:16"
           }
         ],
         "contractDependencies": [
-          5531,
-          5586
+          5614,
+          5669
         ],
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 5540,
+        "id": 5623,
         "linearizedBaseContracts": [
-          5540,
-          5586,
-          5531
+          5623,
+          5669,
+          5614
         ],
         "name": "AggregatorV2V3Interface",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 5541,
+        "scope": 5624,
         "src": "133:83:16"
       }
     ],
@@ -358,7 +358,7 @@
       "absolutePath": "@chainlink/contracts/src/v0.6/interfaces/AggregatorV2V3Interface.sol",
       "exportedSymbols": {
         "AggregatorV2V3Interface": [
-          5540
+          5623
         ]
       }
     },
@@ -372,37 +372,37 @@
             ".0"
           ]
         },
-        "id": 5533,
+        "id": 5616,
         "name": "PragmaDirective",
         "src": "32:24:16"
       },
       {
         "attributes": {
-          "SourceUnit": 5532,
+          "SourceUnit": 5615,
           "absolutePath": "@chainlink/contracts/src/v0.6/interfaces/AggregatorInterface.sol",
           "file": "./AggregatorInterface.sol",
-          "scope": 5541,
+          "scope": 5624,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 5534,
+        "id": 5617,
         "name": "ImportDirective",
         "src": "58:35:16"
       },
       {
         "attributes": {
-          "SourceUnit": 5587,
+          "SourceUnit": 5670,
           "absolutePath": "@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol",
           "file": "./AggregatorV3Interface.sol",
-          "scope": 5541,
+          "scope": 5624,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 5535,
+        "id": 5618,
         "name": "ImportDirective",
         "src": "94:37:16"
       },
@@ -410,22 +410,22 @@
         "attributes": {
           "abstract": false,
           "contractDependencies": [
-            5531,
-            5586
+            5614,
+            5669
           ],
           "contractKind": "interface",
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            5540,
-            5586,
-            5531
+            5623,
+            5669,
+            5614
           ],
           "name": "AggregatorV2V3Interface",
           "nodes": [
             null
           ],
-          "scope": 5541
+          "scope": 5624
         },
         "children": [
           {
@@ -437,15 +437,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "AggregatorInterface",
-                  "referencedDeclaration": 5531,
+                  "referencedDeclaration": 5614,
                   "type": "contract AggregatorInterface"
                 },
-                "id": 5536,
+                "id": 5619,
                 "name": "UserDefinedTypeName",
                 "src": "170:19:16"
               }
             ],
-            "id": 5537,
+            "id": 5620,
             "name": "InheritanceSpecifier",
             "src": "170:19:16"
           },
@@ -458,25 +458,25 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "AggregatorV3Interface",
-                  "referencedDeclaration": 5586,
+                  "referencedDeclaration": 5669,
                   "type": "contract AggregatorV3Interface"
                 },
-                "id": 5538,
+                "id": 5621,
                 "name": "UserDefinedTypeName",
                 "src": "191:21:16"
               }
             ],
-            "id": 5539,
+            "id": 5622,
             "name": "InheritanceSpecifier",
             "src": "191:21:16"
           }
         ],
-        "id": 5540,
+        "id": 5623,
         "name": "ContractDefinition",
         "src": "133:83:16"
       }
     ],
-    "id": 5541,
+    "id": 5624,
     "name": "SourceUnit",
     "src": "32:185:16"
   },
@@ -486,7 +486,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-04-10T22:38:19.876Z",
+  "updatedAt": "2021-04-11T01:17:46.913Z",
   "devdoc": {
     "methods": {}
   },

@@ -1,6 +1,8 @@
 import { setSessionObject } from "../context/sessionStore";
 import { getTokenFarm, loadWeb3 } from "./accountHelper";
+import { answerOptions, currencyDescription } from "./contentMap";
 import { IGameAnserType, IGameInfoType } from "./types";
+import { ensureIsDate, getCurrecyBackupDesc } from "./utility";
 
 export const getGameInfoList = async (
 ) => {
@@ -39,11 +41,11 @@ export const getGameInfoByIds = async (ids:string[], tokenFarm: any)=>{
         gameId: res.gameId,
         gameTitle: res.gameTitle,
         gameQuestion: res.gameQuestion,
-        gameDestribtion: res.gameDescription,
-        gameAnsOptions:[],
+        gameDestribtion: res.gameDescription || getCurrecyBackupDesc(res.gameTitle),
+        gameAnsOptions:answerOptions,
         gameWindowStarTime: "",
         gameWindowEndTime: "", 
-        gameParticipateStartTime:new Date(parseInt(res.gameParticipateStartTime, 10)).toString(),
+        gameParticipateStartTime:ensureIsDate(parseInt(res.gameParticipateStartTime, 10)).toString(),
         gameWindow: res.gameWindow,
         gameProperty:res.gameProperty,
         gamePropertyLogoLink: "https://www.cryptocompare.com/"+res.gameLogoLink,
