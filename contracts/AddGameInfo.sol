@@ -113,7 +113,7 @@ contract AddGameInfo is ChainlinkClient{
     GetVRFInterface getVRFContract = GetVRFInterface(GetVRFInterfaceAddress);
 
     constructor() public {
-        setPublicChainlinkToken();
+        setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
 
         questionList[1].questionName = "PRICE";
         questionList[1].questionDescription = "Guess the second digit after the decimal point";
@@ -221,10 +221,15 @@ contract AddGameInfo is ChainlinkClient{
 
 // 4.
     function gameStatus() public{
-        for(int256 i=1;i<6;i++){
-            gameList[i].isActivity = true;
-            gameList[i].isClose = true;
-        }
+            gameList[1].isActivity = true;
+            gameList[1].isClose = true;
+
+            gameList[1+lifeLengthList[1].gameQuantity].isActivity = true;
+            gameList[1+lifeLengthList[1].gameQuantity].isClose = true;
+
+            gameList[1+lifeLengthList[1].gameQuantity+lifeLengthList[2].gameQuantity].isActivity = true;
+            gameList[1+lifeLengthList[1].gameQuantity+lifeLengthList[2].gameQuantity].isClose = true;
+
     }
 
     /*
@@ -304,7 +309,15 @@ contract AddGameInfo is ChainlinkClient{
 
 
 
-
-
+    /**
+     * Withdraw LINK from this contract
+     *
+     * DO NOT USE THIS IN PRODUCTION AS IT CAN BE CALLED BY ANY ADDRESS.
+     * THIS IS PURELY FOR EXAMPLE PURPOSES.
+     */
+    function withdrawLink() external {
+        LinkTokenInterface linkToken = LinkTokenInterface(chainlinkTokenAddress());
+        require(linkToken.transfer(msg.sender, linkToken.balanceOf(address(this))), "Unable to transfer");
+    }
 
 }
