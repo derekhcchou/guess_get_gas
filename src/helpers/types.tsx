@@ -14,15 +14,14 @@ export interface IGameAnserType{
   answerId: number,
   answerText: string,
 }
-  
   export interface IGameInfoType{
     gameId: number,
     gameTitle: string,
     gameQuestion: string,
     gameDestribtion:string,
     gameAnsOptions:IGameAnserType[],
-    gameWindowStarTime: string,
-    gameWindowEndTime: string, 
+    gameWindowStarTime?: string,
+    gameWindowEndTime?: string, 
     gameParticipateStartTime:string,
     // gameParticipateEndTime: Date, ** this equals to gameWindowStarTime
     gameWindow: "daily"|"weekly"|"monthly"|"lifetime",
@@ -75,9 +74,13 @@ export interface IGameAnserType{
     userData: IUserDataType,
     gameInfo: IGameInfoType[],
     selectedGame?: IGameInfoType,
+    isLoadingGame: boolean,
+    isLoadingUser: boolean
   }
 
   export const initial_AppState: IAppStateType = {
     userData: Init_UserData,
+    isLoadingGame: false,
+    isLoadingUser: false,
     gameInfo:[],
   }

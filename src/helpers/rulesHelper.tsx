@@ -18,6 +18,6 @@ const generateListGroup = (itemList: string, divider: string)=>{
     const stringList = itemList.split(divider);
     return <>{
         stringList.map((str: string)=>{
-            return <ol >{str}</ol>;
+            return <ol className="gameroom-rule-bulletpoint">{str}</ol>;
         })}</>
 }

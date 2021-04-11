@@ -7,6 +7,8 @@ import {IGameInfoType} from "../helpers/types"
 import { countDownTimer, priceFormatter, numberWithCommas} from "../helpers/utility"
 import {useHistory} from "react-router-dom";
 import { getUserGameInfo } from '../helpers/accountHelper';
+import moment from "moment";
+import { isAfter } from 'date-fns';
 
 type Props = {
     game: IGameInfoType
@@ -18,6 +20,7 @@ const GameLobbyCard: React.FC<Props> = ({game
   const { selectedGame, userData} = context.initAppState;
 
   const setSelectedGame = (game: IGameInfoType) => {
+      console.log("setSelectedGame")
       context.dispatch({
         selectedGame: game,
       })
@@ -31,8 +34,17 @@ const GameLobbyCard: React.FC<Props> = ({game
         <Card style={styles.introCardStyle}>
           <div className="lobby-intro-card">
             <div  className="lobby-intro-card-line">
-              <Card.Title><label className="lobby-gameroom-header">{game.gameWindow.toUpperCase()}</label> </Card.Title>
-              <Card.Subtitle><label className="lobby-subtitle">"{game.gameTitle}" {game.gameQuestion}</label></Card.Subtitle>
+            <Container>
+              <Row>
+              <Col xs={9}>
+                <Card.Title><label className="lobby-gameroom-header">{game.gameWindow.toUpperCase()}</label> </Card.Title>
+              </Col>
+              <Col className="lobby-ppl-balance" xs={3}>
+                  {countDownTimer(game)}
+              </Col>
+              </Row>
+              </Container>
+              <Card.Subtitle><label className="lobby-subtitle">{game.gameQuestion} of {game.gameTitle}</label></Card.Subtitle>
             </div>
             <Card.Body>
             {/* gameWindow: {game.gameWindow}<br /> */}
@@ -44,13 +56,14 @@ const GameLobbyCard: React.FC<Props> = ({game
               </Row>
                <Row>
                  <Col xs={8}>
-                    Counting Down: {countDownTimer(game)}<br />
-                    Participating: {numberWithCommas(game.numOfParticipants)} people<br />
-                    Total Reward:  {priceFormatter(game.totalPrice)}<br /><br />
+                    {numberWithCommas(game.numOfParticipants)} ppl/{priceFormatter(game.totalPrice)}
                   </Col>
                   <Col xs={4}>
                     <Button className="lobby-gameroom-btn" onClick={()=>{setSelectedGame(game)}}>
-                      {!!isParticipating ? `You are participating! Click to view details`: `Enter Game`}
+                      {!!isParticipating ? `Participating!`: 
+                      (!isAfter(Date.now(), moment(game.gameWindowStarTime).toDate()) 
+                        || game.gameWindow.toLowerCase() === "lifetime")?
+                      `Enter Game`:`Game Started, View Game`}
                     </Button>
                   </Col>
                 </Row>

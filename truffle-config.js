@@ -27,6 +27,7 @@ module.exports = {
       provider: () => {
         return new HDWalletProvider(mnemonic, url)
       },
+      gas: 9000000,
       network_id: '4',
       skipDryRun: true
     },

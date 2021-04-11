@@ -14,16 +14,17 @@ import Footer from "./Footer"
 import { isArray, isEmpty } from "lodash";
 import {loadWeb3, loadBlockchainData, getAllUserGameList} from "../helpers/accountHelper"
 import { getGameInfoList } from "../helpers/gameHelper";
+import { findAllByDisplayValue } from "@testing-library/dom";
 
 const AppContent: React.FC = ({}) =>{
     // useContext
     const context = useContext(AppStateContext);
-    const {userData, gameInfo} = context.initAppState;
+    const {userData, gameInfo, isLoadingGame} = context.initAppState;
     let history = useHistory();
 
      // might need to move to context cuz this value should be relied on hasSingedIn
      const [isLoadingAccount, setLoadingAccount] = useState(false);
-     const [isLoadingGames, setLoadingGames] = useState(false);
+     const [isLoadingGames, setLoadingGames] = useState(isLoadingGame);
      const [showWalletModal, setShowWalletModal] = useState(false);
      const handleShow = () => setShowWalletModal(true);
      const hasSingedIn = checkUserHasSingedIn(userData );
@@ -31,23 +32,35 @@ const AppContent: React.FC = ({}) =>{
         setShowWalletModal(false)
      }
 
+     const gameInfoList = async() => {
+         const games = await getGameInfoList();
+         setSessionObject("gameInfo", games);
+         context.dispatch({
+             gameInfo:games,
+             isLoadingGame: false,
+         });
+         setLoadingGames(false);
+    };
      useEffect(()=>{
-        if(!isLoadingGames){
-            const sessionGameInfo = getSessionObject("gameInfo");
-            if(
-                ((!sessionGameInfo || isEmpty(sessionGameInfo) || sessionGameInfo.length===0) 
-                && (!gameInfo || isEmpty(gameInfo) || gameInfo.length===0)
-            )){
+        console.log("reloading gameInfo");
+        const sessionGameInfo = getSessionObject("gameInfo");
+        if(!isLoadingGames && !sessionGameInfo || isEmpty(sessionGameInfo)){
+            console.log("user", !!userData.address);
+            setLoadingGames(true);
+            context.dispatch({
+                isLoadingGame:true,
+            });
+            if(!!userData.address){
+                console.log("has user logged in");
+                gameInfoList();
+            }else{
+                console.log("no user logged in");
                 setSessionObject("gameInfo", gameListMock);
                 context.dispatch({
                     gameInfo:gameListMock,
+                    isLoadingGame: false,
                 });
-            }else if(!sessionGameInfo){
-                setSessionObject("gameInfo", gameInfo);
-            }else if(!gameInfo){
-                context.dispatch({
-                    gameInfo:sessionGameInfo,
-                });
+                setLoadingGames(false);
             }
         }
     });
@@ -63,15 +76,17 @@ const AppContent: React.FC = ({}) =>{
      const storeUserData = async () => {
         setLoadingAccount(true);
         await loadWeb3();
-        const gameInfoList = await getGameInfoList();
+        const games = await getGameInfoList();
         const accountDetails = await loadBlockchainData(gameInfo);
         context.dispatch({
             userData: accountDetails,
-            gameInfo: gameInfoList
+            gameInfo: games
         })
-        history.push("/gameLobby");
-        setShowWalletModal(false);
+        setSessionObject("gameInfo", games);
         setSessionObject("userData", accountDetails);
+        history.push("/gameLobby");
+        
+        setShowWalletModal(false);
         setLoadingAccount(false);
      }
 

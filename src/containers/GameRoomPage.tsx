@@ -2,18 +2,22 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {AppStateContext} from "../context/AppContext";
 import {Card, Container, Row, Col, Button, Modal} from "react-bootstrap";
-import {Link, useHistory} from "react-router-dom"
-import {gameRuleMap} from "../helpers/contentMap";
+import {useHistory} from "react-router-dom"
 import {styles} from "../helpers/styles";
 import {IGameAnserType, IGameInfoType, IUserGame} from "../helpers/types";
 import {numberWithCommas, countDownTimer} from "../helpers/utility";
 import {isArray, isNumber} from "lodash";
 import { joinNewGame } from '../helpers/accountHelper';
 import { getGameroomRules } from '../helpers/rulesHelper';
+import { setSessionObject } from '../context/sessionStore';
 
 const GameRoomPage: React.FC = () =>{
     const context = useContext(AppStateContext);
     const {selectedGame, userData} = context.initAppState;
+    const history = useHistory();
+    if(!userData.address) history.push("/");
+    if(!selectedGame) history.push("/gameLobby");
+
     const [selectedOption, setSelectedOption] = useState<number>(-1);
     const [warningMsg, setWarningMsg] = useState<string>("");
     const [isOptionDisabled, setOptionDisabled] = useState<boolean>(false);
@@ -24,7 +28,6 @@ const GameRoomPage: React.FC = () =>{
     const [betValue, setBetValue] = useState<string>("");
     const [isBetModalBtmDisabled, setBetModalBtmDisabled] = useState<boolean>(true);
     const [betWarningMsg, setBetWarningMsg] = useState<string>("");
-    const history = useHistory();
     
     // Initial load for gameroom page
     useEffect(()=>{
@@ -87,6 +90,8 @@ const GameRoomPage: React.FC = () =>{
                 context.dispatch({
                     userData: newUserData
                 })
+                setSessionObject("userData", newUserData);
+                
             }
        }
        setShowGameModal(false);
@@ -104,47 +109,20 @@ const GameRoomPage: React.FC = () =>{
     <div>
         { !!selectedGame &&
             <>
-                {isParticipating && 
-                    <Card style={styles.introCardStyle}>
-                        Your are participating in this game!
-                    </Card>
-                }
-                {!isParticipating && userData.balance === 0  && 
-                    <Card style={styles.introCardStyle}>
-                        Your current account balance is $0 ETH. Please reload to participate!
-                    </Card>
-                }
-                {/* Top Section */}
                 <Card style={styles.introCardStyle}>
-                    <Card.Title>{selectedGame.gameQuestion}</Card.Title>
-                    <Card.Subtitle>{selectedGame.gameTitle}</Card.Subtitle>
-                    <Card.Body>
-                        <Container>
-                            <Row>
-                            <Col xs={6}>
-                                {countDownTimer(selectedGame)}<br />
-                                Property: {selectedGame.gameProperty}<br />
-                                Current Participants: {numberWithCommas(selectedGame.numOfParticipants)} people<br />
-                                Total Price: {numberWithCommas(selectedGame.totalPrice)}<br /><br />
-                                <br /><br />
-                            </Col>
-                            <Col xs={6}>
-                                <h5>Rules of {selectedGame.gameWindow} Game </h5>
-                                {getGameroomRules(selectedGame.gameWindow)}
-                                <br /><br />
-                            </Col>
-                            </Row>
-                        </Container>
-                    </Card.Body>
-                </Card>
-
-                {/* Story Section */}
-                <Card style={styles.introCardStyle}>
-                    <h5>Story of {selectedGame.gameProperty}:</h5>
+                    <label className="gameroom-question-title">{selectedGame.gameWindow} Game</label>
+                    {isParticipating && 
+                        <>Your are participating in this game!</>
+                    }
+                    {!isParticipating && userData.balance === 0  && 
+                        <>Your current account balance is $0 ETH. Please reload to participate!</>
+                    }
+                    <br /><br /><br />
+                    <label className="gameroom-section-title">Story of {selectedGame.gameTitle}:</label>
                     <Container >
                         <Row >
                             <Col xs={7} >
-                                {selectedGame.gameDestribtion}<br />
+                                <div className="gameroom-story">{selectedGame.gameDestribtion}</div>
                             </Col>
                             <Col xs={1} ></Col>
                             <Col xs={4} className="my-auto">
@@ -162,11 +140,12 @@ const GameRoomPage: React.FC = () =>{
                 {/* Guessing Section */}
                 <Card style={styles.introCardStyle}>
                     {isArray(selectedGame.gameAnsOptions) && selectedGame.gameAnsOptions.length > 0 ? 
-                         <>
-                            <h5>Question: {selectedGame.gameQuestion}</h5>
+                         <div className="gameroom-answer-section">
+                             <label className="gameroom-answer-section-title">{selectedGame.gameQuestion}</label>
+                             <div className="gameroom-option-section">
                                 {selectedGame.gameAnsOptions.map((ansOption: IGameAnserType)=>{
                                     return (
-                                        <label  className = {isOptionDisabled ? "optionDisabled":"optionEnabled"}>
+                                        <><label  className = {isOptionDisabled ? "optionDisabled":"optionEnabled"}>
                                             <input type="radio" 
                                                 className="radio-button"
                                                 name="options" 
@@ -180,23 +159,32 @@ const GameRoomPage: React.FC = () =>{
                                                 checked={ansOption.answerId === selectedOption}
                                             />
                                             {ansOption.answerText}
-                                        </label>
+                                        </label><br /></>
                                     )
                                 })}
-                            <Button type="submit" 
-                                variant="outline-dark" 
+                            </div>
+                            <Button type="submit" block
+                                className="gameroom-btn" 
                                 onClick={handleGameSubmitValidation}  
                                 disabled={isOptionDisabled}
-                            >{isParticipating ? `You bet ${numberWithCommas(Number(betValue))} 
-                                with answer "${selectedGame.gameAnsOptions.find(option=> option.answerId === selectedOption)?.answerText}"`:`Put down yout bet!`}</Button>
+                            >{isParticipating ? `You guess answer "${selectedGame.gameAnsOptions.find(option=> option.answerId === selectedOption)?.answerText}" with ${numberWithCommas(Number(betValue))} `
+                                :` Make Your Guess!`}</Button>
                             {warningMsg && <label>Warning: {warningMsg}</label>}
-                       </>
+                       </div>
                     :
                         // this should be for lifetime game >> just have a button to join?
-                       <Button className="gameroom-btn" onClick={()=>{}}>
-                            Join!
+                       <Button className="gameroom-btn" onClick={()=>{}} block>
+                            Make Your Guess!
                         </Button>
                     }
+                </Card>
+
+                 {/* Top Section */}
+                 <Card style={styles.introCardStyle}>
+                    <label className="gameroom-section-title">Rules:</label>
+                    <Card.Body>
+                        {getGameroomRules(selectedGame.gameWindow)}
+                    </Card.Body>
                 </Card>
             </>
         }
@@ -204,7 +192,7 @@ const GameRoomPage: React.FC = () =>{
 
     <Modal show={showGameModal} onHide={()=>{setShowGameModal(false)}}>
         <Modal.Header closeButton style={styles.modalStyle}>
-            <Modal.Title>Put on your bet!</Modal.Title>
+            <Modal.Title> Make Your Guess!</Modal.Title>
         </Modal.Header>
         <Modal.Body style={styles.modalStyle}>
             <label>How much do you want to place for the bet? </label><br />

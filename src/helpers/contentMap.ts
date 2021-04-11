@@ -1,5 +1,6 @@
 import { IGameAnserType } from "./types"
 
+// Game Rules to show on the Gameroom Page
 export const gameRuleMap = {
     daily: "1. How well do you know about this crypto currency? Check out the story behind it!\n\
     2. Everyday, our game room will have different kinds of topics for you to join!\n\
@@ -38,6 +39,7 @@ export const gameRuleMap = {
     9. Your returned stake will be returned to platform balance and can be used for next game."
 }
 
+// To save backend call, we also have a copy on the UI to show the answer options
 export const answerOptions:IGameAnserType[]=[
     {
         answerId: 1,
@@ -57,6 +59,7 @@ export const answerOptions:IGameAnserType[]=[
       }
     ];
 
+// If backend does not find currency description, UI provides limited information to users
 export const currencyDescription = 
     [
         {
@@ -90,4 +93,19 @@ export const currencyDescription =
             key: "EOS",
             desc: "EOS is a platform that’s designed to allow developers to build decentralized apps (otherwise known as DApps for short.)",
         }        
-    ]
+    ];
+
+
+export const startTimeAfterParticipationTime = {
+    "daily":1,
+    "weekly":3,
+    "monthly":7,
+    "lifetime":0,
+}
+
+export const endTimeAfterStartTime = {
+    "daily":1,
+    "weekly":7,
+    "monthly":30,
+    "lifetime":0,
+}
