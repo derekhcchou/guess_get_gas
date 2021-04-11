@@ -24,7 +24,9 @@ const NavBar: React.FC<Props> = ({
     return (
         <>
             <Navbar style={styles.header}>
-                <Navbar.Brand href="/" style={styles.headerLogoText}>Crypto Guess</Navbar.Brand>
+                <Navbar.Brand href="/" style={styles.headerLogoText}>
+                    <img src="tamagochan.png" style={styles.headerLogo}></img>Guess, Get Gas
+                </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                     {/* Switch between "Connect Wallet" and  */}

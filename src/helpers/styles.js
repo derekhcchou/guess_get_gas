@@ -1,7 +1,8 @@
 export const styles = {
     
     page:{
-        background: "#A3BCB6"
+        "background": "#001233",
+        "font-family": "Monospace"
     },
 
     // account page
@@ -17,52 +18,64 @@ export const styles = {
         "width":"20rem",
         "height":"20rem",
         "padding": "15px",
-        "background": "#DADED4",
-        "border-radius": "10px",
-        "font-weight": "700",
+        "background": "#001233",
+        "border-radius": "2px",
+        "font-weight": "400",
+        "color": "#dddddd",
+        "font-family": "Monospace",
+        "margin": "5px",
+        "border": "1px solid white"
     },
     gameRoomBtn:{
         "margin": "20px",
         "border-radius": "20px",
         "font-weight": "700",
+        "font-size":"3rem",
+        "color":"#ddd",
+        "border": "4px solid white"
     },
     gameCardStyle:{
         "padding": "0px",
         "margin": "20px",
-        "background": "#A3BCB6", 
+        "background": "none", 
         "border": "none",
         "font-weight": "700",
       },
     introCardStyle:{
       "padding": "15px",
       "margin": "20px",
-      "background": "#DADED4", 
+      "background": "none", 
       "border-radius": "10px",
       "font-weight": "700",
+      "font-size": "1rem",
+      "color":"#ddd",
     },
-
     // Navbar Header
     headerLogoText:{
-        "color":"#3C403D",
+        "color":"#ddd",
         "font-size":"2rem",
         "font-weight": "800",
+        "font-family": "Geneva"
+    },
+    headerLogo:{
+        "width": "60px",
+        "margin-right": "10px"
     },
     headerNavText:{
-        "color":"#3C403D",
+        "color":"#ddd",
         "font-size":"1.25rem",
         "font-weight": "800",
        
     },
     headerNavTextLight:{
-        "color":"#3C403D",
+        "color":"#ddd",
         "font-size":"1.25rem",
         "font-weight": "700",
        
     },
     header:{
-        padding: "15px",
+        "padding": "15px",
     },
-
     // Popup Modal
     modalStyle:{
         "background": "#DADED4", 

@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+.bigTitle { 
+  font-size: 2rem;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -42,6 +46,11 @@
   background-color: #daded4 !important;
 }
 
+.rule-list {
+  background-color: #daded4 !important;
+  background: #daded4 !important;
+}
+
 .radio-button {
   margin-right: 5px;
 }
@@ -52,4 +61,8 @@
 }
 .optionEnabled {
   color: black;
+}
+
+.navbar-light .navbar-text a {
+  color: #ddd;
 }
