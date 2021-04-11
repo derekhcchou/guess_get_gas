@@ -6,7 +6,7 @@ import PersonalPage from "./containers/PersonalPage";
 import GameLobbyPage from "./containers/GameLobbyPage";
 import GameRoomPage from "./containers/GameRoomPage"
 
-const appName = "Gamble"
+const appName = "Guess, Get Gas"
 let pageMap = [
     {
         component: PersonalPage,
@@ -16,12 +16,12 @@ let pageMap = [
     {
         component: GameLobbyPage,
         path:"/gameLobby",
-        tabTitle: `Pick a Crypto Game | ${appName}`
+        tabTitle: `Pick a Game | ${appName}`
     },
     {
         component: GameRoomPage,
         path:"/gameRoom",
-        tabTitle: `Place Your Estimation!| ${appName}`
+        tabTitle: `Make Your Guess!| ${appName}`
     },
     {
         component: LandingPage,
