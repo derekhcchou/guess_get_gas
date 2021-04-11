@@ -26,8 +26,8 @@ This application is built using truffle, nodejs, solidity, and chainlink, infura
 ## Demo video
 
 <p align="center">
-   <a target="_blank" href="">
-    <img src=""/>
+   <a target="_blank" href="https://youtu.be/PsTr74KumCM">
+    <img src="./public/video-cover.png"/>
    </a>
 </p>
 
