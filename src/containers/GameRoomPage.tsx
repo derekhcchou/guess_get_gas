@@ -133,7 +133,7 @@ const GameRoomPage: React.FC = () => {
           <>
             <Card style={styles.introCardStyle}>
               <label className="gameroom-question-title">
-                {selectedGame.gameWindow} Game
+                {selectedGame.gameWindow.toUpperCase()} GAME
               </label>
               {isParticipating && <>Your are participating in this game!</>}
               {!isParticipating && userData.balance === 0 && (
