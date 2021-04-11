@@ -218,3 +218,14 @@
   font-size: 1.75rem;
   border-bottom: 3px solid #aaa;
 }
+
+/* Main */
+.personal-balance-section {
+  border-radius: 10px;
+  border-style: solid !important;
+  border-color: #aaa !important;
+  padding: 30px;
+}
+.personal-balance-title {
+  font-size: 1.75rem;
+}
